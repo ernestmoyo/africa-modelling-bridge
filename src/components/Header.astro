@@ -1,19 +1,19 @@
 ---
 const nav = [
-  { href: '/africa-modelling-bridge/approach', label: 'The movement' },
-  { href: '/africa-modelling-bridge/researchers/ernest-moyo', label: 'Founder' },
-  { href: '/africa-modelling-bridge/countries/tanzania', label: 'Countries' },
-  { href: '/africa-modelling-bridge/dossiers', label: 'Dossiers' },
-  { href: '/africa-modelling-bridge/tools/triage', label: 'Tools' },
-  { href: '/africa-modelling-bridge/support', label: 'Get involved' },
-  { href: '/africa-modelling-bridge/about', label: 'About' },
+  { href: '/approach', label: 'The movement' },
+  { href: '/researchers/ernest-moyo', label: 'Founder' },
+  { href: '/countries/tanzania', label: 'Countries' },
+  { href: '/dossiers', label: 'Dossiers' },
+  { href: '/tools/triage', label: 'Tools' },
+  { href: '/support', label: 'Get involved' },
+  { href: '/about', label: 'About' },
 ];
 const path = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-40 border-b border-ink-100/60 bg-cream-50/85 backdrop-blur">
   <div class="container-wide flex h-16 items-center justify-between gap-6">
-    <a href="/africa-modelling-bridge/" class="flex items-center gap-3 group" aria-label="Home">
+    <a href="/" class="flex items-center gap-3 group" aria-label="Home">
       <span class="relative grid place-items-center h-9 w-9 rounded-md bg-bridge-600 text-cream-50 transition-transform group-hover:-rotate-3">
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M3 17c3-6 7-6 9-6s6 0 9 6" />
@@ -45,7 +45,7 @@ const path = Astro.url.pathname;
       })}
     </nav>
     <a
-      href="/africa-modelling-bridge/support"
+      href="/support"
       class="hidden lg:inline-flex items-center gap-2 rounded-md bg-ember-500 px-4 py-2 text-sm font-medium text-cream-50 shadow-card hover:bg-ember-600 hover:-translate-y-px transition"
     >
       <span class="h-1.5 w-1.5 rounded-full bg-cream-50/90 animate-pulse"></span>

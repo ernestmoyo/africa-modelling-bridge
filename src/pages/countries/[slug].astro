@@ -76,7 +76,7 @@ const initialsFor = (n: string): string =>
 
     <div class="container-page relative pt-16 pb-16 sm:pt-20 sm:pb-20">
       <nav class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-400">
-        <a href="/africa-modelling-bridge/" class="hover:text-bridge-700">Home</a>
+        <a href="/" class="hover:text-bridge-700">Home</a>
         <span class="mx-2 text-bridge-300">/</span>
         <span class="text-bridge-700">Countries</span>
         <span class="mx-2 text-bridge-300">/</span>
@@ -148,7 +148,7 @@ const initialsFor = (n: string): string =>
             The questions on the table in {name}.
           </h2>
         </div>
-        <a href="/africa-modelling-bridge/dossiers" class="text-sm font-medium text-bridge-700 link-underline">
+        <a href="/dossiers" class="text-sm font-medium text-bridge-700 link-underline">
           All dossiers →
         </a>
       </div>
@@ -201,7 +201,7 @@ const initialsFor = (n: string): string =>
                   </div>
                 ) : <div />}
                 <a
-                  href={`/africa-modelling-bridge/dossiers/${d.slug}`}
+                  href={`/dossiers/${d.slug}`}
                   class="text-sm font-medium text-bridge-700 link-underline"
                 >
                   Read preview →
@@ -267,7 +267,7 @@ const initialsFor = (n: string): string =>
             The people doing the work in {name}.
           </h2>
         </div>
-        <a href="/africa-modelling-bridge/researchers" class="text-sm font-medium text-bridge-700 link-underline">
+        <a href="/researchers" class="text-sm font-medium text-bridge-700 link-underline">
           All researchers →
         </a>
       </div>
@@ -278,7 +278,7 @@ const initialsFor = (n: string): string =>
         <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {researchers.map((r) => (
             <a
-              href={`/africa-modelling-bridge/researchers/${r.slug}`}
+              href={`/researchers/${r.slug}`}
               class="group flex items-start gap-4 rounded-2xl border border-bridge-100/60 bg-cream-50 p-5 shadow-card transition hover:-translate-y-px hover:shadow-lift"
             >
               <div
@@ -352,14 +352,14 @@ const initialsFor = (n: string): string =>
         </div>
         <div class="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">
           <a
-            href="/africa-modelling-bridge/dossiers"
+            href="/dossiers"
             class="inline-flex items-center gap-2 rounded-md bg-ember-500 px-5 py-3 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-ember-600"
           >
             Browse dossiers
             <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </a>
           <a
-            href="/africa-modelling-bridge/support"
+            href="/support"
             class="inline-flex items-center gap-2 rounded-md border border-cream-50/30 bg-bridge-700 px-5 py-3 text-sm font-medium text-cream-50 transition hover:border-cream-50 hover:bg-bridge-600"
           >
             Funder pathway

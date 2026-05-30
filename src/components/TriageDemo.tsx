@@ -643,7 +643,7 @@ export default function TriageDemo() {
                 Output is an AI-generated draft. In production, editor + adviser review is required
                 before any question is published as a dossier.
               </span>
-              <a href="/africa-modelling-bridge/dossiers" className="link-underline text-bridge-700">
+              <a href="/dossiers" className="link-underline text-bridge-700">
                 See full dossier examples →
               </a>
             </div>

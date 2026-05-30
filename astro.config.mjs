@@ -5,8 +5,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://ernestmoyo.github.io',
-  base: '/africa-modelling-bridge',
+  site: 'https://amb.7squareinc.com',
   integrations: [
     tailwind({ applyBaseStyles: false }),
     mdx(),

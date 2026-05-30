@@ -63,11 +63,11 @@ const adjacent = all.filter((d) => d.slug !== slug).slice(0, 2);
   <section class="border-b border-bridge-100/60 bg-cream-100/40">
     <div class="container-page py-12 sm:py-16">
       <nav class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-400">
-        <a href="/africa-modelling-bridge/" class="hover:text-bridge-700">Home</a>
+        <a href="/" class="hover:text-bridge-700">Home</a>
         <span class="mx-2 text-bridge-300">/</span>
-        <a href="/africa-modelling-bridge/dossiers" class="hover:text-bridge-700">Dossiers</a>
+        <a href="/dossiers" class="hover:text-bridge-700">Dossiers</a>
         <span class="mx-2 text-bridge-300">/</span>
-        <a href={`/africa-modelling-bridge/countries/${country}`} class="hover:text-bridge-700">{countryLabel[country]}</a>
+        <a href={`/countries/${country}`} class="hover:text-bridge-700">{countryLabel[country]}</a>
         <span class="mx-2 text-bridge-300">/</span>
         <span class="text-ink-700 normal-case tracking-normal font-sans">preview</span>
       </nav>
@@ -161,7 +161,7 @@ const adjacent = all.filter((d) => d.slug !== slug).slice(0, 2);
               </p>
 
               <a
-                href={`/africa-modelling-bridge/support#${slug}`}
+                href={`/support#${slug}`}
                 class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-ember-500 px-4 py-2.5 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-ember-600"
               >
                 Support this dossier
@@ -211,7 +211,7 @@ const adjacent = all.filter((d) => d.slug !== slug).slice(0, 2);
             Other questions on the table.
           </h2>
         </div>
-        <a href="/africa-modelling-bridge/dossiers" class="text-sm font-medium text-bridge-700 link-underline">
+        <a href="/dossiers" class="text-sm font-medium text-bridge-700 link-underline">
           All dossiers →
         </a>
       </div>
@@ -219,7 +219,7 @@ const adjacent = all.filter((d) => d.slug !== slug).slice(0, 2);
       <div class="mt-8 grid gap-6 md:grid-cols-2">
         {adjacent.map((d) => (
           <a
-            href={`/africa-modelling-bridge/dossiers/${d.slug}`}
+            href={`/dossiers/${d.slug}`}
             class="group flex flex-col rounded-2xl border border-bridge-100/60 bg-cream-50 p-6 shadow-card transition hover:-translate-y-px hover:shadow-lift"
           >
             <div class="flex flex-wrap items-center gap-2">

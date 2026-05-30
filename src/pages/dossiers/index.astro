@@ -85,7 +85,7 @@ const ordered = [...dossiers].sort(
           <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 4v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </a>
         <a
-          href="/africa-modelling-bridge/support"
+          href="/support"
           class="inline-flex items-center gap-2 rounded-md border border-bridge-200 bg-cream-50 px-5 py-3 text-sm font-medium text-bridge-700 transition hover:border-bridge-500 hover:bg-bridge-50"
         >
           Support a dossier
@@ -189,7 +189,7 @@ const ordered = [...dossiers].sort(
                     </p>
                   </div>
                   <a
-                    href={`/africa-modelling-bridge/dossiers/${d.slug}`}
+                    href={`/dossiers/${d.slug}`}
                     class="text-sm font-medium text-bridge-700 link-underline"
                   >
                     Read preview →
@@ -198,7 +198,7 @@ const ordered = [...dossiers].sort(
               )}
               {!d.data.open_to_support && (
                 <a
-                  href={`/africa-modelling-bridge/dossiers/${d.slug}`}
+                  href={`/dossiers/${d.slug}`}
                   class="text-sm font-medium text-bridge-700 link-underline"
                 >
                   Read preview →

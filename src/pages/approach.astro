@@ -299,7 +299,7 @@ const statusFor = (s: string) => s as LayerStatus;
       <div class="mt-12 grid gap-4 md:grid-cols-3">
         {orderedCountries.map((c) => (
           <a
-            href={`/africa-modelling-bridge/countries/${c!.slug}`}
+            href={`/countries/${c!.slug}`}
             class="group relative flex flex-col rounded-2xl border border-bridge-100/70 bg-cream-50 p-6 shadow-card transition hover:-translate-y-px hover:shadow-lift"
           >
             <div class="flex items-start justify-between">
@@ -339,14 +339,14 @@ const statusFor = (s: string) => s as LayerStatus;
           </div>
           <div class="lg:col-span-5 flex flex-col gap-3 sm:flex-row lg:justify-end">
             <a
-              href="/africa-modelling-bridge/dossiers"
+              href="/dossiers"
               class="inline-flex items-center justify-center gap-2 rounded-md bg-bridge-600 px-5 py-3 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-bridge-700"
             >
               Browse dossiers
               <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
             </a>
             <a
-              href="/africa-modelling-bridge/support"
+              href="/support"
               class="inline-flex items-center justify-center gap-2 rounded-md border border-bridge-200 bg-cream-50 px-5 py-3 text-sm font-medium text-bridge-700 transition hover:border-bridge-500 hover:bg-bridge-50"
             >
               Funder pathway
