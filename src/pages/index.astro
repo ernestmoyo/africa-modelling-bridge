@@ -1,72 +1,71 @@
 ---
 import Base from '@/layouts/Base.astro';
-import StatusPill from '@/components/StatusPill.astro';
-import { getCollection } from 'astro:content';
 
-const researchers = await getCollection('researchers');
-const orderedResearchers = [
-  researchers.find((r) => r.slug === 'ernest-moyo'),
-  researchers.find((r) => r.slug === 'lesley-anne-long'),
-  researchers.find((r) => r.slug === 'tz-anchor-placeholder'),
-  researchers.find((r) => r.slug === 'mw-anchor-placeholder'),
-].filter(Boolean);
-
-const layers = [
+const credentials = [
   {
-    num: '00',
-    short: 'MoH Information Bridge',
-    line: 'Indexed, citable, teachable record of publicly available ministry documents.',
+    org: 'Clinton Health Access Initiative',
+    line: 'Regional Epidemiologist, Southern Africa — risk mapping & stratification with NMCPs in Zimbabwe, Angola, South Africa, Mozambique and Namibia.',
   },
   {
-    num: '01',
-    short: 'Dialogue sessions',
-    line: 'Small in-person rooms — shared meal, no rank, no exclusion.',
+    org: 'Malaria Atlas Project · Swiss TPH',
+    line: 'Built risk maps and transmission-driver analyses in partnership with the leading global modelling groups.',
   },
   {
-    num: '02',
-    short: 'Question portfolio',
-    line: '3–5 country-led modelling questions per year, co-formulated with the ministry.',
-  },
-  {
-    num: '03',
-    short: 'Discovery sessions',
-    line: 'University walk-throughs that surface BSc, MSc and PhD candidates.',
-  },
-  {
-    num: '04',
-    short: 'Concept-note support',
-    line: 'Methods brief, named adviser, peer channel, year-end showcase.',
-  },
-  {
-    num: '05',
-    short: 'Communications & archive',
-    line: "Public index, project profiles, monthly spotlight, DOI'd outputs.",
+    org: 'Vector Atlas · NM-AIST (PhD)',
+    line: 'Doctoral research in applied mathematics — EpiWave, a Bayesian geostatistical framework for high-resolution malaria risk mapping.',
   },
 ];
 
-const initialsFor = (name: string): string =>
-  name
-    .replace(/—.*/, '')
-    .trim()
-    .split(/\s+/)
-    .map((p) => p[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
+const value = [
+  {
+    k: 'Target',
+    title: 'Put the resource where the burden is',
+    body: 'High-resolution risk maps and stratification show where to deploy nets, spray, drugs and surveillance for the largest reduction in cases per dollar — instead of spreading thin and hoping.',
+  },
+  {
+    k: 'Prove',
+    title: 'Cost-effectiveness, not guesswork',
+    body: 'Transmission and intervention models estimate what a reallocation actually buys — the marginal cases averted from moving a budget line — so a programme manager can defend the choice in the room.',
+  },
+  {
+    k: 'Fund',
+    title: 'The model is the investment case',
+    body: 'A credible, locally-owned model is what a ministry takes to the Global Fund, to Treasury, to a new funder. Outputs do not just inform decisions — they justify the ask for the money to act on them.',
+  },
+];
+
+const works = [
+  {
+    n: '01',
+    title: 'Convene the room',
+    body: 'Bring the Ministry of Health and the country’s modellers to the same table — small rooms, shared meals, no rank. The decision the ministry is actually facing sets the agenda.',
+  },
+  {
+    n: '02',
+    title: 'Frame the questions',
+    body: 'Turn that decision into a short portfolio of modelling questions the country owns — feasible, fundable, and tied to a real programme choice rather than a journal deadline.',
+  },
+  {
+    n: '03',
+    title: 'Build the capacity',
+    body: 'Route those questions to African BSc, MSc and PhD researchers with a named supervisor and methods support, so the skill to answer them stays in the country after the project ends.',
+  },
+  {
+    n: '04',
+    title: 'Translate for decisions',
+    body: 'Interpret the outputs into something a programme manager and a finance ministry can act on — and a funder can back. This is the step the movement exists to get right.',
+  },
+];
 ---
 
 <Base
-  title="Africa Modelling Bridge"
-  description="A consultant-led collaborative bridging African ministries and universities — publicly available information, structured dialogue, and country-led modelling questions routed to BSc, MSc and PhD students."
+  title="Africa Modelling Bridge — a modelling movement for African health decisions"
+  description="A modelling movement that convenes African Ministries of Health and African universities — led by Ernest Moyo, an epidemiologist and health-systems modeller — so that scarce resources are targeted by evidence and decisions are backed by models governments own."
 >
   <!-- ───────────────────────── Hero ───────────────────────── -->
   <section class="relative overflow-hidden border-b border-bridge-100/60">
     <div class="absolute inset-0 -z-10" aria-hidden="true">
-      <svg
-        viewBox="0 0 1200 600"
-        preserveAspectRatio="xMidYMid slice"
-        class="h-full w-full opacity-[0.55]"
-      >
+      <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" class="h-full w-full opacity-[0.55]">
         <defs>
           <linearGradient id="bridgeGrad" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stop-color="#c1ddda" stop-opacity="0.0" />
@@ -74,30 +73,15 @@ const initialsFor = (name: string): string =>
             <stop offset="100%" stop-color="#c1ddda" stop-opacity="0.0" />
           </linearGradient>
         </defs>
-        <!-- topographic contour lines -->
         <g stroke="#c1ddda" stroke-width="1" fill="none" opacity="0.7">
           <path d="M0,420 C200,360 380,400 600,360 C820,320 980,400 1200,360" />
           <path d="M0,460 C200,400 380,440 600,400 C820,360 980,440 1200,400" />
           <path d="M0,500 C200,440 380,480 600,440 C820,400 980,480 1200,440" />
           <path d="M0,540 C200,480 380,520 600,480 C820,440 980,520 1200,480" />
         </g>
-        <!-- bridge-arc motif spanning three nodes (TZ / MW / DRC) -->
         <g>
-          <path
-            d="M 220,330 Q 600,90 980,330"
-            fill="none"
-            stroke="url(#bridgeGrad)"
-            stroke-width="1.5"
-          />
-          <path
-            d="M 220,330 Q 600,140 980,330"
-            fill="none"
-            stroke="#8bbeb9"
-            stroke-width="1"
-            stroke-dasharray="2 6"
-            opacity="0.8"
-          />
-          <!-- nodes -->
+          <path d="M 220,330 Q 600,90 980,330" fill="none" stroke="url(#bridgeGrad)" stroke-width="1.5" />
+          <path d="M 220,330 Q 600,140 980,330" fill="none" stroke="#8bbeb9" stroke-width="1" stroke-dasharray="2 6" opacity="0.8" />
           <circle cx="220" cy="330" r="6" fill="#0f4c4a" />
           <circle cx="600" cy="140" r="5" fill="#d4663f" />
           <circle cx="980" cy="330" r="6" fill="#0f4c4a" />
@@ -111,49 +95,49 @@ const initialsFor = (name: string): string =>
     <div class="container-page relative pt-20 pb-24 sm:pt-28 sm:pb-32">
       <p class="eyebrow flex items-center gap-3">
         <span class="inline-block h-px w-8 bg-bridge-300"></span>
-        Africa Modelling Bridge · v0.0 Prototype
+        Africa Modelling Bridge · a modelling movement
       </p>
       <h1 class="mt-6 max-w-5xl font-display text-balance text-4xl font-light leading-[1.05] tracking-tightest text-ink-900 sm:text-6xl lg:text-7xl">
-        An evidence bridge for
-        <span class="italic text-bridge-600">African decisions</span>.
+        When the money is tight,
+        <span class="italic text-bridge-600">modelling decides</span>
+        where it goes.
       </h1>
       <p class="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-ink-600 sm:text-xl">
-        A consultant-led collaborative — starting in health — bridging African ministries and
-        African universities. We surface publicly available government information, host structured
-        in-person dialogue, and route country-led modelling questions to BSc, MSc and PhD students
-        in the same country.
+        Africa Modelling Bridge is a movement to put modelling at the centre of how African
+        governments spend scarce health resources — and how they make the case for more. We
+        convene Ministries of Health and African universities around the models that decide where
+        nets, drugs and surveillance go, and that ministries take to funders to justify the ask.
       </p>
 
       <div class="mt-10 flex flex-wrap items-center gap-4">
         <a
-          href="/africa-modelling-bridge/tools/triage"
+          href="/africa-modelling-bridge/researchers/ernest-moyo"
           class="group inline-flex items-center gap-2 rounded-md bg-ember-500 px-5 py-3 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-ember-600 hover:shadow-lift"
         >
-          <span class="h-2 w-2 rounded-full bg-cream-50/90 animate-pulse"></span>
-          Try the AI demo
+          Meet the modeller behind it
           <svg viewBox="0 0 20 20" class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </a>
         <a
           href="/africa-modelling-bridge/approach"
           class="inline-flex items-center gap-2 rounded-md border border-bridge-200 bg-cream-50 px-5 py-3 text-sm font-medium text-bridge-700 transition hover:border-bridge-500 hover:bg-bridge-50"
         >
-          Read the approach
+          How the movement works
           <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </a>
       </div>
 
       <div class="mt-14 grid max-w-3xl gap-x-8 gap-y-3 text-sm sm:grid-cols-3">
         <div class="border-l-2 border-bridge-200 pl-4">
-          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Lead Consultant</p>
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Founder &amp; lead modeller</p>
           <p class="mt-1 text-ink-800">Ernest Moyo</p>
         </div>
         <div class="border-l-2 border-bridge-200 pl-4">
-          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Senior Adviser</p>
-          <p class="mt-1 text-ink-800">Lesley-Anne Long</p>
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">The bridge</p>
+          <p class="mt-1 text-ink-800">Ministries of Health ↔ Academia</p>
         </div>
         <div class="border-l-2 border-ember-400 pl-4">
-          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Pilot countries</p>
-          <p class="mt-1 text-ink-800">Tanzania · Malawi · DRC</p>
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Reach</p>
+          <p class="mt-1 text-ink-800">Southern &amp; East Africa</p>
         </div>
       </div>
     </div>
@@ -166,9 +150,9 @@ const initialsFor = (name: string): string =>
         <div class="lg:col-span-5">
           <p class="eyebrow">Why now</p>
           <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl lg:text-5xl text-balance">
-            Aid is contracting.
+            Donors are pulling back.
             <br class="hidden sm:inline" />
-            Prioritisation needs evidence.
+            The decisions only get harder.
           </h2>
         </div>
         <div class="lg:col-span-7 lg:pt-2">
@@ -177,11 +161,7 @@ const initialsFor = (name: string): string =>
               <p class="font-display text-5xl font-light tracking-tightest text-ember-600">−21<span class="text-3xl">%</span></p>
               <p class="mt-3 text-sm leading-relaxed text-ink-600">
                 Development assistance for health, 2024 → 2025
-                <a
-                  href="https://www.healthdata.org/research-analysis/library/financing-global-health-2024-decade-disruption-and-rebuilding"
-                  class="link-underline ml-1 text-xs text-bridge-700"
-                  rel="noopener"
-                >IHME</a>
+                <a href="https://www.healthdata.org/research-analysis/library/financing-global-health-2024-decade-disruption-and-rebuilding" class="link-underline ml-1 text-xs text-bridge-700" rel="noopener">IHME</a>
               </p>
             </div>
             <div class="rounded-2xl border border-bridge-100/60 bg-cream-50 p-6 shadow-card">
@@ -198,121 +178,71 @@ const initialsFor = (name: string): string =>
             </div>
           </div>
           <p class="mt-8 max-w-2xl text-lg leading-relaxed text-ink-600 text-pretty">
-            Tighter envelopes mean harder choices. Harder choices need evidence. Evidence needs
-            modelling. And modelling — to be useful — needs local capacity tied to the questions
-            ministries are actually asking. The Bridge is built around that loop.
+            As donors boycott, withdraw and tighten, every health programme on the continent is being
+            forced to do more with less. That is not, first, a fundraising problem — it is a
+            <span class="text-ink-900 font-medium">prioritisation</span> problem. Which district, which
+            intervention, which population, this year, with this much money? Those are modelling
+            questions. The movement exists to make sure governments answer them with their own evidence
+            — and use that evidence to argue for the funding to act.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ───────────────────────── The gap ───────────────────────── -->
-  <section class="border-b border-bridge-100/60">
+  <!-- ───────────────────────── The idea ───────────────────────── -->
+  <section class="border-b border-bridge-100/60 bg-cream-100/40">
     <div class="container-page py-20 sm:py-24">
       <div class="max-w-3xl">
-        <p class="eyebrow">The gap</p>
+        <p class="eyebrow">The idea</p>
         <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl lg:text-5xl text-balance">
-          Three patterns we keep meeting in the field.
+          Be the bridge between
+          <span class="italic text-bridge-600">the ministry and the model.</span>
         </h2>
+        <p class="mt-6 text-lg leading-relaxed text-ink-600 text-pretty">
+          African Ministries of Health hold the decisions, the data and the urgency. African
+          universities hold the modelling talent. They rarely sit in the same room. AMB is a
+          convener — led by a modeller who has worked on both sides — that closes that gap as a
+          standing movement, not a one-off project.
+        </p>
       </div>
+
       <div class="mt-12 grid gap-6 md:grid-cols-3">
-        <article class="group rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card transition hover:-translate-y-px hover:shadow-lift">
+        <article class="rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card">
           <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-bridge-50 text-bridge-600">
-            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 5h7v14H4z" />
-              <path d="M13 5h7v14h-7z" />
-              <path d="M11 9h2" />
-            </svg>
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
           </div>
-          <h3 class="mt-5 font-display text-xl font-medium text-ink-900">
-            Information asymmetry
-          </h3>
+          <h3 class="mt-5 font-display text-xl font-medium text-ink-900">The government side</h3>
           <p class="mt-3 text-sm leading-relaxed text-ink-600">
-            Ministries publish surveillance bulletins, programme reviews and strategic plans —
-            but they rarely reach the universities working in the same country, in any form
-            students can cite or build on.
+            Ministries and national programmes own the choices and the consequences. They need answers
+            framed around the decision in front of them — not a paper published two years later.
           </p>
         </article>
-
-        <article class="group rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card transition hover:-translate-y-px hover:shadow-lift">
+        <article class="rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card">
           <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-bridge-50 text-bridge-600">
-            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 18l6-6 4 4 8-8" />
-              <path d="M14 8h7v7" />
-            </svg>
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
           </div>
-          <h3 class="mt-5 font-display text-xl font-medium text-ink-900">
-            Modelling detached from policy
-          </h3>
+          <h3 class="mt-5 font-display text-xl font-medium text-ink-900">The academic side</h3>
           <p class="mt-3 text-sm leading-relaxed text-ink-600">
-            Excellent modelling work happens in African universities, but it is rarely framed
-            around the question a programme manager would actually take to a meeting on Monday
-            morning.
+            African universities train capable modellers whose work too rarely reaches a programme
+            manager’s desk. The movement gives them real questions, real data, and a real audience.
           </p>
         </article>
-
-        <article class="group rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card transition hover:-translate-y-px hover:shadow-lift">
-          <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-bridge-50 text-bridge-600">
-            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M12 3v18M3 12h18" />
-            </svg>
+        <article class="rounded-2xl border border-ember-200/70 bg-cream-50 p-7 shadow-card ring-1 ring-ember-100">
+          <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-ember-50 text-ember-600">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17c4-7 12-7 16 0"/><circle cx="6" cy="17" r="1.6" fill="currentColor"/><circle cx="18" cy="17" r="1.6" fill="currentColor"/></svg>
           </div>
-          <h3 class="mt-5 font-display text-xl font-medium text-ink-900">
-            Funding bias toward incumbents
-          </h3>
+          <h3 class="mt-5 font-display text-xl font-medium text-ink-900">The bridge</h3>
           <p class="mt-3 text-sm leading-relaxed text-ink-600">
-            Small grants and PhD top-ups disproportionately route through the same five or six
-            established centres. Capable students and supervisors outside that orbit go
-            unfunded, and unseen.
+            A modeller who speaks both languages — convening the room, framing the questions, and
+            translating the outputs into decisions governments can act on and funders will back.
           </p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- ───────────────────────── What we are building ───────────────────────── -->
-  <section class="relative border-b border-bridge-100/60 bg-cream-100/40">
-    <div class="container-page py-20 sm:py-24">
-      <div class="grid gap-12 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-7">
-          <p class="eyebrow">What we are building</p>
-          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl lg:text-5xl text-balance">
-            One bridge. <span class="italic text-bridge-600">Five layers.</span>
-          </h2>
-          <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600 text-pretty">
-            AMB is not a fellowship, a thinktank, or a software product. It is a thin
-            consultant-led collaborative that runs five tightly-coupled layers in three countries,
-            with one operational lead per country and one named anchor inside each ministry.
-          </p>
-        </div>
-        <div class="lg:col-span-5 lg:text-right">
-          <a
-            href="/africa-modelling-bridge/approach"
-            class="inline-flex items-center gap-2 text-sm font-medium text-bridge-700 link-underline"
-          >
-            Read the full approach
-            <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-          </a>
-        </div>
-      </div>
-
-      <ol class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {layers.map((layer) => (
-          <li class="group relative flex gap-5 rounded-2xl border border-bridge-100/60 bg-cream-50 p-6 shadow-card transition hover:-translate-y-px hover:shadow-lift">
-            <span class="font-display text-3xl font-light tracking-tightest text-bridge-300 group-hover:text-ember-500">{layer.num}</span>
-            <div>
-              <h3 class="font-display text-base font-medium text-ink-900">Layer {layer.num.replace(/^0/, '')} — {layer.short}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-ink-600">{layer.line}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <!-- ───────────────────────── The magic moment ───────────────────────── -->
+  <!-- ───────────────────────── The person driving it ───────────────────────── -->
   <section class="relative overflow-hidden border-b border-bridge-100/60 bg-bridge-700 text-cream-50">
     <div class="absolute inset-0 -z-0 opacity-[0.08]" aria-hidden="true">
       <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" class="h-full w-full">
@@ -325,196 +255,133 @@ const initialsFor = (name: string): string =>
     </div>
     <div class="container-page relative py-20 sm:py-24">
       <div class="grid gap-12 lg:grid-cols-12 lg:items-center">
-        <div class="lg:col-span-5">
-          <p class="font-mono text-xs uppercase tracking-[0.2em] text-ember-200">The magic moment</p>
+        <div class="lg:col-span-6">
+          <p class="font-mono text-xs uppercase tracking-[0.2em] text-ember-200">Who is driving it</p>
           <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-cream-50 sm:text-4xl lg:text-5xl text-balance">
-            Upload a ministry document.
-            <span class="italic text-ember-200">Get research questions in 30 seconds.</span>
+            A modeller who has sat
+            <span class="italic text-ember-200">on both sides of the table.</span>
           </h2>
           <p class="mt-6 max-w-xl text-lg leading-relaxed text-cream-100/90 text-pretty">
-            The M10 Document Triage tool takes any publicly available ministry PDF — a strategic
-            plan, an annual report, an EPI bulletin — and proposes candidate research questions at
-            BSc, MSc and PhD tiers, with methods and feasible timelines. The first live piece of
-            the Bridge.
+            Ernest Moyo is an epidemiologist and health-systems modeller with over a decade supporting
+            African Ministries of Health — interpreting modelling outputs into real programme decisions.
+            As a CHAI regional epidemiologist he built malaria risk maps and stratifications alongside
+            the Malaria Atlas Project and Swiss TPH, working directly with national malaria programmes
+            across Southern Africa. He is now deepening the craft through a PhD in mathematical
+            modelling, building EpiWave — a Bayesian framework for high-resolution risk mapping.
+          </p>
+          <p class="mt-4 max-w-xl text-base leading-relaxed text-cream-100/70 text-pretty">
+            This movement is led by someone who understands the models, has stood in the ministry rooms
+            where they get used, and knows what it takes to turn them into funding.
           </p>
           <a
-            href="/africa-modelling-bridge/tools/triage"
+            href="/africa-modelling-bridge/researchers/ernest-moyo"
             class="mt-8 inline-flex items-center gap-2 rounded-md bg-ember-500 px-5 py-3 text-sm font-medium text-cream-50 shadow-lift transition hover:-translate-y-px hover:bg-ember-600"
           >
-            <span class="h-2 w-2 rounded-full bg-cream-50/90 animate-pulse"></span>
-            Try the demo
+            Read the full background
             <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </a>
         </div>
 
-        <div class="lg:col-span-7">
-          <div class="grid gap-4 sm:grid-cols-2">
-            <!-- Uploaded document mock -->
-            <div class="rounded-2xl border border-cream-50/15 bg-bridge-800/60 p-5 backdrop-blur">
-              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-cream-100/60">Input · PDF</p>
-              <div class="mt-4 flex items-start gap-3">
-                <div class="grid h-12 w-10 shrink-0 place-items-center rounded-md bg-ember-500/15 text-ember-200">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 3h7l5 5v13H7z" stroke-linejoin="round"/><path d="M14 3v5h5" stroke-linejoin="round"/></svg>
-                </div>
-                <div class="min-w-0">
-                  <p class="truncate text-sm font-medium text-cream-50">TZ-NMCP-Annual-Report-2024.pdf</p>
-                  <p class="mt-1 text-xs text-cream-100/60">82 pages · 4.6 MB · uploaded 0.4 s ago</p>
-                </div>
-              </div>
-              <div class="mt-5 space-y-1.5">
-                <div class="h-1.5 w-full overflow-hidden rounded-full bg-cream-50/10">
-                  <div class="h-full w-full bg-ember-400/80"></div>
-                </div>
-                <p class="text-[10px] font-mono uppercase tracking-[0.18em] text-cream-100/50">Parsed · 14,212 tokens · 38 figures</p>
-              </div>
-            </div>
-
-            <!-- AI output mock -->
-            <div class="rounded-2xl border border-cream-50/15 bg-cream-50 p-5 text-ink-800 shadow-lift">
-              <div class="flex items-center justify-between">
-                <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Output · 3 candidate questions</p>
-                <StatusPill status="live" small />
-              </div>
-              <ul class="mt-4 space-y-3 text-sm">
-                <li class="flex gap-3">
-                  <span class="mt-0.5 inline-flex h-5 shrink-0 items-center rounded-md bg-bridge-50 px-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-bridge-700">BSc</span>
-                  <p class="leading-snug">
-                    Replicate the 2023→2024 ITN coverage map from HMIS and DHS, and identify the
-                    five districts with the largest drop.
-                  </p>
-                </li>
-                <li class="flex gap-3">
-                  <span class="mt-0.5 inline-flex h-5 shrink-0 items-center rounded-md bg-bridge-50 px-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-bridge-700">MSc</span>
-                  <p class="leading-snug">
-                    Estimate the marginal case-burden impact of a 10% IRS reallocation toward the
-                    Lake Zone, using the NMCP stratification.
-                  </p>
-                </li>
-                <li class="flex gap-3">
-                  <span class="mt-0.5 inline-flex h-5 shrink-0 items-center rounded-md bg-bridge-50 px-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-bridge-700">PhD</span>
-                  <p class="leading-snug">
-                    Joint spatio-temporal model of incidence + intervention coverage with explicit
-                    structural uncertainty across the five strata.
-                  </p>
-                </li>
-              </ul>
-              <p class="mt-5 border-t border-bridge-100/70 pt-3 text-[11px] text-ink-400">
-                Generated in 28.4 s · Tanzania · ministry-document grounded
-              </p>
-            </div>
-          </div>
+        <div class="lg:col-span-6">
+          <ul class="grid gap-4">
+            {credentials.map((c) => (
+              <li class="rounded-2xl border border-cream-50/15 bg-bridge-800/50 p-5 backdrop-blur">
+                <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-200">{c.org}</p>
+                <p class="mt-2 text-sm leading-relaxed text-cream-100/90">{c.line}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ───────────────────────── Researchers preview ───────────────────────── -->
+  <!-- ───────────────────────── Why modelling ───────────────────────── -->
   <section class="border-b border-bridge-100/60">
     <div class="container-page py-20 sm:py-24">
-      <div class="flex flex-wrap items-end justify-between gap-6">
-        <div>
-          <p class="eyebrow">Researchers</p>
-          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
-            The collaborative — small by design.
-          </h2>
-        </div>
-        <a href="/africa-modelling-bridge/researchers" class="text-sm font-medium text-bridge-700 link-underline">
-          See all researchers →
-        </a>
+      <div class="max-w-3xl">
+        <p class="eyebrow">Why modelling</p>
+        <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl lg:text-5xl text-balance">
+          What a good model does for a government under pressure.
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-ink-600 text-pretty">
+          Modelling is not an academic luxury. In a constrained year it is the most practical tool a
+          health system has — to target, to prove, and to fund.
+        </p>
       </div>
-
-      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {orderedResearchers.map((r) => (
-          <article class="group relative flex flex-col rounded-2xl border border-bridge-100/60 bg-cream-50 p-6 shadow-card transition hover:-translate-y-px hover:shadow-lift">
-            <div class="flex items-start justify-between">
-              <div
-                class="grid h-14 w-14 place-items-center rounded-full bg-bridge-600 font-display text-lg font-medium text-cream-50"
-                aria-hidden="true"
-              >
-                {initialsFor(r!.data.name)}
-              </div>
-              {r!.data.placeholder && (
-                <span class="inline-flex items-center rounded-full bg-cream-200 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-600">
-                  Placeholder
-                </span>
-              )}
-            </div>
-            <h3 class="mt-5 font-display text-lg font-medium leading-snug text-ink-900">
-              {r!.data.name}
-            </h3>
-            <p class="mt-1 text-sm text-bridge-700">{r!.data.role}</p>
-            {r!.data.institution && (
-              <p class="mt-2 text-xs text-ink-400">{r!.data.institution}</p>
-            )}
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        {value.map((v) => (
+          <article class="group rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card transition hover:-translate-y-px hover:shadow-lift">
+            <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-600">{v.k}</span>
+            <h3 class="mt-3 font-display text-xl font-medium text-ink-900">{v.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink-600">{v.body}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ───────────────────────── Funder pathway ───────────────────────── -->
-  <section class="border-b border-bridge-100/60 bg-bridge-50/60">
+  <!-- ───────────────────────── How the movement works ───────────────────────── -->
+  <section class="border-b border-bridge-100/60 bg-cream-100/40">
     <div class="container-page py-20 sm:py-24">
-      <div class="grid gap-12 lg:grid-cols-12">
-        <div class="lg:col-span-5">
-          <p class="eyebrow">For funders</p>
-          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl lg:text-5xl text-balance">
-            Browse the dossiers.
-            <br class="hidden sm:inline" />
-            Support what fits.
-          </h2>
-        </div>
-
+      <div class="grid gap-12 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
-          <p class="text-lg leading-relaxed text-ink-600 text-pretty">
-            Each open-to-support dossier is a single research question — with a named supervisor,
-            a named country, a feasible timeline, and a budget ask. Funders can sponsor a single
-            project, a country portfolio, or the platform layer that holds it together.
+          <p class="eyebrow">How the movement works</p>
+          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl lg:text-5xl text-balance">
+            Convene. Frame. Build. <span class="italic text-bridge-600">Translate.</span>
+          </h2>
+          <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600 text-pretty">
+            Not a fellowship, not a think-tank, not a software product. A thin, consultant-led
+            movement that runs the same four-step cadence in each country it works in.
           </p>
-
-          <div class="mt-8 grid gap-3 sm:grid-cols-3">
-            <div class="rounded-xl border border-bridge-100 bg-cream-50 p-4">
-              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Engagement</p>
-              <p class="mt-2 font-display text-2xl font-light text-ink-900">Country layer</p>
-              <p class="mt-1 text-xs text-ink-400">Dialogue, discovery, anchors.</p>
-            </div>
-            <div class="rounded-xl border border-bridge-100 bg-cream-50 p-4">
-              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Platform</p>
-              <p class="mt-2 font-display text-2xl font-light text-ink-900">The site</p>
-              <p class="mt-1 text-xs text-ink-400">Index, archive, profiles, DOIs.</p>
-            </div>
-            <div class="rounded-xl border border-bridge-100 bg-cream-50 p-4">
-              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">AI</p>
-              <p class="mt-2 font-display text-2xl font-light text-ink-900">The tools</p>
-              <p class="mt-1 text-xs text-ink-400">Triage, methods, supervisor assist.</p>
-            </div>
-          </div>
-
-          <a
-            href="/africa-modelling-bridge/support"
-            class="mt-8 inline-flex items-center gap-2 rounded-md bg-bridge-600 px-5 py-3 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-bridge-700"
-          >
-            See the funder pathway
-            <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </div>
+        <div class="lg:col-span-5 lg:text-right">
+          <a href="/africa-modelling-bridge/approach" class="inline-flex items-center gap-2 text-sm font-medium text-bridge-700 link-underline">
+            Read the full approach
+            <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </a>
         </div>
       </div>
+
+      <ol class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {works.map((w) => (
+          <li class="group relative flex flex-col rounded-2xl border border-bridge-100/60 bg-cream-50 p-6 shadow-card transition hover:-translate-y-px hover:shadow-lift">
+            <span class="font-display text-3xl font-light tracking-tightest text-bridge-300 group-hover:text-ember-500">{w.n}</span>
+            <h3 class="mt-3 font-display text-base font-medium text-ink-900">{w.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">{w.body}</p>
+          </li>
+        ))}
+      </ol>
+
+      <p class="mt-8 max-w-2xl text-sm leading-relaxed text-ink-400">
+        A growing toolkit supports the cadence — a public index of ministry documents, an AI
+        question-scaffold, methods coaching, open dossiers. Useful, but secondary: the tools serve the
+        movement, never the other way around. <a href="/africa-modelling-bridge/tools/triage" class="link-underline text-bridge-700">See the tools →</a>
+      </p>
     </div>
   </section>
 
-  <!-- ───────────────────────── Closing / newsletter ───────────────────────── -->
+  <!-- ───────────────────────── Closing ───────────────────────── -->
   <section class="bg-cream-100">
     <div class="container-page py-20 sm:py-24">
       <div class="grid items-center gap-12 lg:grid-cols-12">
         <div class="lg:col-span-7">
           <h2 class="font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl lg:text-5xl text-balance">
-            Build the bridge.
-            <span class="italic text-bridge-600">Share the work.</span>
+            Join the movement.
+            <span class="italic text-bridge-600">Back the bridge.</span>
           </h2>
           <p class="mt-5 max-w-xl text-lg leading-relaxed text-ink-600 text-pretty">
-            One quiet email a month: new dossiers, new researcher spotlights, what we learned from
-            the last round of dialogues. No press releases, no urgency theatre.
+            For ministries, modellers, universities and funders who believe African health decisions
+            should be driven by African evidence. One quiet email a month — what we convened, what we
+            modelled, what changed.
           </p>
+          <a
+            href="/africa-modelling-bridge/support"
+            class="mt-8 inline-flex items-center gap-2 rounded-md bg-bridge-600 px-5 py-3 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-bridge-700"
+          >
+            How to get involved
+            <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </a>
         </div>
 
         <div class="lg:col-span-5">

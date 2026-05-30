@@ -1,11 +1,11 @@
 ---
 const nav = [
-  { href: '/africa-modelling-bridge/approach', label: 'Approach' },
+  { href: '/africa-modelling-bridge/approach', label: 'The movement' },
+  { href: '/africa-modelling-bridge/researchers/ernest-moyo', label: 'Founder' },
   { href: '/africa-modelling-bridge/countries/tanzania', label: 'Countries' },
   { href: '/africa-modelling-bridge/dossiers', label: 'Dossiers' },
-  { href: '/africa-modelling-bridge/researchers', label: 'Researchers' },
-  { href: '/africa-modelling-bridge/tools/triage', label: 'Try the demo' },
-  { href: '/africa-modelling-bridge/support', label: 'Support' },
+  { href: '/africa-modelling-bridge/tools/triage', label: 'Tools' },
+  { href: '/africa-modelling-bridge/support', label: 'Get involved' },
   { href: '/africa-modelling-bridge/about', label: 'About' },
 ];
 const path = Astro.url.pathname;
@@ -23,7 +23,7 @@ const path = Astro.url.pathname;
       </span>
       <span class="flex flex-col leading-tight">
         <span class="font-display text-base font-semibold tracking-snug text-ink-900">Africa Modelling Bridge</span>
-        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-bridge-600">v0.0 · funder prototype</span>
+        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-bridge-600">a modelling movement</span>
       </span>
     </a>
     <nav class="hidden md:flex items-center gap-1" aria-label="Primary">
@@ -45,11 +45,11 @@ const path = Astro.url.pathname;
       })}
     </nav>
     <a
-      href="/africa-modelling-bridge/tools/triage"
+      href="/africa-modelling-bridge/support"
       class="hidden lg:inline-flex items-center gap-2 rounded-md bg-ember-500 px-4 py-2 text-sm font-medium text-cream-50 shadow-card hover:bg-ember-600 hover:-translate-y-px transition"
     >
       <span class="h-1.5 w-1.5 rounded-full bg-cream-50/90 animate-pulse"></span>
-      Try the AI demo
+      Get involved
     </a>
     <details class="md:hidden relative">
       <summary class="list-none cursor-pointer rounded-md p-2 text-ink-700 hover:bg-ink-100">
