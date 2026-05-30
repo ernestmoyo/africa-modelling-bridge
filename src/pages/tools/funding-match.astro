@@ -1,0 +1,47 @@
+---
+import Base from '@/layouts/Base.astro';
+import ComingSoonTool from '@/components/ComingSoonTool.astro';
+---
+
+<Base
+  title="Funding Match · M14"
+  description="Periodically scrapes open funder calls — Wellcome, Mastercard, IDRC, GCC, Gates Africa, DPI funders — and matches each researcher and dossier to a personalised shortlist."
+>
+  <ComingSoonTool
+    moduleId="M14"
+    name="Funding Match"
+    status="coming-v1_5"
+    shipPhase="v1.5 · month 8 · Scenario B"
+    headline="The funding bias breaks"
+    italic="when researchers can see the calls."
+    intro="Funding for modelling is patchy and structurally biased toward established centres. M14 narrows that gap. It periodically scrapes open funder calls — Wellcome, Mastercard Young Africa Works, IDRC, Grand Challenges Canada, Gates Africa, Carnegie, AESA / AAS, FCDO / SIDA / GIZ, plus DPI funders (Patrick J. McGovern Foundation, Omidyar, Mozilla, Gates DPI, EU Global Gateway DPI) — and matches each researcher and dossier to a personalised shortlist, pushed monthly via the newsletter."
+    technicalLabel="Cloudflare Cron Triggers · Vectorize"
+    technicalNote="A weekly cron worker fetches funder-call pages, extracts the call structure (eligibility, themes, budget envelope, deadline), embeds each call, and stores it in Vectorize. For every active researcher profile and every open dossier, the system matches against the call embeddings. Per-recipient sections of the M19 newsletter ship the top three matches that month. The pipeline is editable in YAML so new funders can be added without touching code."
+    features={[
+      {
+        title: 'Personalised to the researcher',
+        body: 'Matches use the researcher\'s methods, country, sector and current dossier. A Malawian MSc working on EPI does not get calls aimed at PhD students working on dengue.',
+      },
+      {
+        title: 'Personalised to the dossier',
+        body: 'Every open-to-support dossier gets its own funder shortlist. The shortlist sits on the dossier page so an interested funder can move in days, not months.',
+      },
+      {
+        title: 'DPI + AI-vendor partnerships',
+        body: 'The funder list explicitly includes the platform-tranche routes — McGovern, Omidyar, Mozilla, Gates DPI, EU Global Gateway, plus AI vendor philanthropy (Anthropic, OpenAI for Nonprofits, Google for Nonprofits, xAI, Cohere).',
+      },
+      {
+        title: 'Climate-health funders included',
+        body: 'Wellcome Climate and IDRC Climate-Health are first-class citizens because the platform is sector-agnostic and the climate-health questions matter.',
+      },
+      {
+        title: 'Monthly newsletter delivery',
+        body: 'Matches arrive in your inbox via the M19 newsletter — one section per researcher, three calls each, with a one-line fit rationale.',
+      },
+      {
+        title: 'No spam, no commission',
+        body: 'AMB takes no fee for matches. M14 is a public good. The match is the match.',
+      },
+    ]}
+  />
+</Base>

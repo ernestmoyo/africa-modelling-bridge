@@ -1,0 +1,47 @@
+---
+import Base from '@/layouts/Base.astro';
+import ComingSoonTool from '@/components/ComingSoonTool.astro';
+---
+
+<Base
+  title="Methods Coach · M12"
+  description="From ‘I have this question’ to ‘here is the appropriate Bayesian / spatial / time-series approach’, with starter code and a routing recommendation to a named adviser."
+>
+  <ComingSoonTool
+    moduleId="M12"
+    name="Methods Coach"
+    status="coming-v1_0"
+    shipPhase="v1.0 · month 6"
+    headline="Pick the right method,"
+    italic="then meet the human who can supervise you."
+    intro="A guided walk-through. The researcher describes their question and their data. M12 navigates a structured decision tree — question type, data structure, spatial/temporal/network dependence — backed by Claude, and proposes a methods family with starter-code references. Two outcomes every session: a one-page methods brief and a routing recommendation to a named adviser in the working-modeller network."
+    technicalLabel="Claude Haiku · decision-tree + RAG"
+    technicalNote="M12 is intentionally conservative. The decision tree is hand-curated from the working-modeller advisers' guidance and only the explanatory copy is Claude-generated. The model never recommends a method outside the curated set. The final outcome is a *human* — not a model — to ask. M12 always recommends the named adviser as the next step, not itself."
+    features={[
+      {
+        title: 'Question typology',
+        body: 'Descriptive, predictive, causal, optimisation, mechanism-informed inference. Each branches to a different methods family. No guessing.',
+      },
+      {
+        title: 'Data-structure check',
+        body: 'Point-level / area-level, time-series / panel, network. The data structure constrains the methods. The Coach forces you to look at it before recommending anything.',
+      },
+      {
+        title: 'Methods family + starter code',
+        body: 'Bayesian hierarchical, GP-based spatial, time-series state-space, mixed-integer optimisation. Each comes with a link to the AMB starter-pack template repo.',
+      },
+      {
+        title: 'Trap-flagging',
+        body: 'Three Bayesian-modelling traps every African modelling project hits — NegBin replacing the GP, case-only likelihood claiming identifiability, 3D space-time product kernels. M12 flags them up-front.',
+      },
+      {
+        title: 'Adviser routing',
+        body: 'Every Coach session ends with a recommendation to a named working-modeller adviser (Nick / IDEM-LAB / MAP / Vector Atlas / AIMS / ACEFA) — chosen on methods match, not on availability.',
+      },
+      {
+        title: 'One-page brief',
+        body: 'The session output is a downloadable methods brief you can hand to your supervisor, the funder, or the assigned working-modeller adviser in the next dialogue session.',
+      },
+    ]}
+  />
+</Base>

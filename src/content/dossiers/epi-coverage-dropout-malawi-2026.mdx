@@ -1,0 +1,30 @@
+---
+title: "Forecasting EPI coverage drop-out following 2025–26 donor reductions"
+slug: epi-coverage-dropout-malawi-2026
+country: malawi
+ministry: Ministry of Health (Malawi) / EPI Programme
+sector: health-systems
+disease_or_theme: immunisation
+status: preview
+difficulty: msc
+time_estimate_months: 8
+methods: [Bayesian hierarchical, time-series forecasting, spatial smoothing]
+budget_ask_usd: 1500
+open_to_support: true
+one_line: "Which Malawi districts are most exposed to EPI coverage drop-out as donor financing contracts in 2025–26?"
+why_it_matters: "The Malawi Ministry of Health is preparing prioritisation decisions for the 2026 EPI cycle under a tightened external-financing environment. Pure public data (HMIS, EPI annual bulletins, DHS) is enough to identify the districts most exposed — but no one is currently doing the forecast in a way the ministry can act on."
+---
+
+## The question
+
+As donor-supported immunisation financing contracts in 2025–26, which Malawi districts are most exposed to EPI coverage drop-out — and what is the recommended sequencing of mitigation given a finite operational budget?
+
+## Why now
+
+Malawi's EPI programme has historically depended on external co-financing. The 2025–26 shifts in the Gavi co-financing landscape and bilateral aid contractions mean districts that were marginally above coverage thresholds in 2024 may slide below them in 2026. The ministry needs a forecast it can act on — not a retrospective.
+
+## Methods landscape (sketch)
+
+A Bayesian hierarchical model with district-level random effects, a temporal trend component, and a covariate set drawn from HMIS staffing, cold-chain coverage, and historical drop-out rates. Spatial smoothing using a CAR prior on district adjacency. Validation against 2023 holdout. *Not* a 3D space-time GP — overkill for this question. *Not* a deep-learning approach — the data don't justify it and the ministry would not be able to interpret it.
+
+> Full dossier with starter pack, data sources, supervisor and adviser publishes on v0.1.

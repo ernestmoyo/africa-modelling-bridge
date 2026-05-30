@@ -1,0 +1,372 @@
+---
+import Base from '@/layouts/Base.astro';
+import StatusPill from '@/components/StatusPill.astro';
+import { getCollection } from 'astro:content';
+
+interface ResearcherData {
+  name: string;
+  slug: string;
+  role: string;
+  institution?: string;
+  country?: string;
+  methods: string[];
+  bio: string;
+  placeholder: boolean;
+  open_to_support: boolean;
+  spotlight: boolean;
+  photo?: string;
+  links?: {
+    orcid?: string;
+    github?: string;
+    x?: string;
+    linkedin?: string;
+  };
+}
+
+const all = await getCollection('researchers');
+const bySlug = (slug: string) => all.find((r) => r.slug === slug);
+
+// Display order: Ernest → Lesley-Anne → TZ anchor → MW anchor
+const ordered = [
+  bySlug('ernest-moyo'),
+  bySlug('lesley-anne-long'),
+  bySlug('tz-anchor-placeholder'),
+  bySlug('mw-anchor-placeholder'),
+].filter(Boolean);
+
+function initials(name: string): string {
+  return name
+    .replace(/[—·].*/, '')
+    .split(/\s+/)
+    .map((p) => p.charAt(0))
+    .filter(Boolean)
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+}
+
+const avatarColours: Record<string, string> = {
+  'ernest-moyo': 'bg-bridge-600 text-cream-50',
+  'lesley-anne-long': 'bg-ember-500 text-cream-50',
+  'tz-anchor-placeholder': 'bg-cream-300 text-bridge-700',
+  'mw-anchor-placeholder': 'bg-cream-300 text-bridge-700',
+};
+
+const advisers: { name: string; tag: string; note: string }[] = [
+  {
+    name: 'Nick Golding',
+    tag: 'Bayesian inference · geospatial',
+    note: 'Creator of greta; UWA Chair in Infectious Disease Modelling; Director of Malaria Ecology at MAP. Pro-bono lens on every methods question that touches the spatial / Bayesian stack.',
+  },
+  {
+    name: 'IDEM-LAB',
+    tag: 'Infectious-disease ecology',
+    note: 'Nick Golding\'s lab at The Kids Research Institute Australia. Methods sparring partners for ACEFA, surveillance modelling and species-distribution work.',
+  },
+  {
+    name: 'Malaria Atlas Project',
+    tag: 'Malaria geospatial atlas',
+    note: 'Standing reference for the cartographic and SNT-adjacent modelling work the dossiers will reproduce, extend, or critique.',
+  },
+  {
+    name: 'Vector Atlas',
+    tag: 'Vector ecology atlas',
+    note: 'The consortium Ernest sits inside as a PhD candidate — methods continuity from his own research into AMB\'s vector-ecology dossiers.',
+  },
+  {
+    name: 'AIMS network',
+    tag: 'African Institute for Mathematical Sciences',
+    note: 'Continental supply of MSc / PhD modellers — AMB\'s primary pipeline for researcher matching from v0.5 onward.',
+  },
+  {
+    name: 'ACEFA',
+    tag: 'African Centre of Excellence for Forecasting Africa',
+    note: 'Continental forecasting and surveillance-modelling collective. Working-modeller advisers for time-series and outbreak work.',
+  },
+];
+---
+
+<Base title="Team" description="Lead consultant, senior adviser, country anchors, and the pro-bono working-modeller network that anchors the methodological lens of Africa Modelling Bridge.">
+
+  <!-- Hero -->
+  <section class="border-b border-bridge-100/60 bg-cream-50 relative overflow-hidden">
+    <div class="grain-overlay"></div>
+    <div class="container-page relative py-20 sm:py-24">
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-8">
+          <p class="eyebrow mb-6">Team</p>
+          <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tightest text-ink-900 text-balance leading-[1.05]">
+            A small core. A wide working-modeller network.
+          </h1>
+          <p class="mt-8 max-w-readable text-lg text-ink-600 leading-relaxed text-pretty">
+            AMB v0.0 is held by a lead consultant and a senior adviser, with country anchors in active
+            conversation. Around that core, a pro-bono network of working modellers contributes
+            methods review — and from v0.5, dossier-by-dossier matching to researchers.
+          </p>
+        </div>
+        <div class="lg:col-span-4">
+          <div class="grid grid-cols-3 gap-px rounded-xl overflow-hidden border border-bridge-100/60 bg-bridge-100/40">
+            <div class="bg-cream-50 p-4">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Core</p>
+              <p class="mt-1 font-display text-2xl font-semibold text-ink-900">2</p>
+            </div>
+            <div class="bg-cream-50 p-4">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Anchors</p>
+              <p class="mt-1 font-display text-2xl font-semibold text-ink-900">3</p>
+              <p class="text-[10px] text-ink-400">TZ · MW · DRC</p>
+            </div>
+            <div class="bg-cream-50 p-4">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Advisers</p>
+              <p class="mt-1 font-display text-2xl font-semibold text-ink-900">6+</p>
+              <p class="text-[10px] text-ink-400">Pro-bono network</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- People cards -->
+  <section class="border-b border-bridge-100/40">
+    <div class="container-page py-20 sm:py-24">
+      <div class="flex items-end justify-between mb-12 gap-6 flex-wrap">
+        <div>
+          <p class="eyebrow mb-3">Core + country anchors</p>
+          <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-snug text-ink-900">
+            Who holds the work.
+          </h2>
+        </div>
+        <p class="font-mono text-xs text-ink-400">
+          {ordered.length} profiles · sorted by role
+        </p>
+      </div>
+
+      <div class="grid gap-6 sm:gap-7 lg:grid-cols-2">
+        {ordered.map((r) => {
+          if (!r) return null;
+          const d = r.data as ResearcherData;
+          const avatar = avatarColours[r.slug] ?? 'bg-cream-300 text-bridge-700';
+          const isPlaceholder = d.placeholder;
+          return (
+            <article class:list={[
+              'group rounded-2xl border bg-cream-50 p-7 sm:p-8 shadow-card hover:shadow-lift transition relative overflow-hidden',
+              isPlaceholder
+                ? 'border-cream-300 border-dashed'
+                : 'border-bridge-100/60',
+            ]}>
+              {!isPlaceholder && (
+                <span class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-bridge-600 via-ember-500 to-bridge-600 opacity-70"></span>
+              )}
+
+              <div class="flex items-start gap-5">
+                <div class:list={[
+                  'flex-none grid place-items-center h-16 w-16 rounded-full font-display text-xl font-semibold shadow-card',
+                  avatar,
+                ]}>
+                  {initials(d.name)}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-wrap items-start justify-between gap-3">
+                    <div class="min-w-0">
+                      <h3 class="font-display text-2xl font-semibold tracking-snug text-ink-900 leading-tight text-balance">
+                        {d.name}
+                      </h3>
+                      <p class="mt-1 text-sm text-bridge-600 font-medium">{d.role}</p>
+                    </div>
+                    {isPlaceholder && <StatusPill status="preview" small={true} />}
+                  </div>
+                  {d.institution && (
+                    <p class="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-ink-500">
+                      {d.institution}
+                      {d.country && <span class="text-ink-300"> · {d.country}</span>}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <p class="mt-5 text-base text-ink-700 leading-relaxed text-pretty">
+                {d.bio}
+              </p>
+
+              {isPlaceholder && (
+                <p class="mt-4 inline-flex items-center gap-2 rounded-md bg-cream-100 border border-cream-300 px-3 py-1.5 text-xs font-mono text-bridge-700">
+                  <span class="h-1.5 w-1.5 rounded-full bg-ember-400"></span>
+                  In conversation — named on v0.1
+                </p>
+              )}
+
+              {d.methods.length > 0 && (
+                <div class="mt-5 pt-5 border-t border-bridge-100/50">
+                  <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400 mb-2.5">Methods · contribution</p>
+                  <ul class="flex flex-wrap gap-1.5">
+                    {d.methods.map((method) => (
+                      <li class="inline-flex items-center rounded-full bg-bridge-50 text-bridge-700 px-2.5 py-0.5 text-[11px] font-medium">
+                        {method}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {!isPlaceholder && d.links && (
+                <div class="mt-5 flex items-center gap-4 text-xs">
+                  {d.links.x && (
+                    <a href={d.links.x} class="font-mono text-ink-500 hover:text-bridge-600 transition" rel="noopener">x</a>
+                  )}
+                  {d.links.github && (
+                    <a href={d.links.github} class="font-mono text-ink-500 hover:text-bridge-600 transition" rel="noopener">github</a>
+                  )}
+                  {d.links.orcid && (
+                    <a href={d.links.orcid} class="font-mono text-ink-500 hover:text-bridge-600 transition" rel="noopener">orcid</a>
+                  )}
+                  {d.links.linkedin && (
+                    <a href={d.links.linkedin} class="font-mono text-ink-500 hover:text-bridge-600 transition" rel="noopener">linkedin</a>
+                  )}
+                </div>
+              )}
+            </article>
+          );
+        })}
+
+        <!-- DRC anchor — not yet seeded as a researcher, render an inline placeholder -->
+        <article class="rounded-2xl border border-dashed border-cream-300 bg-cream-50 p-7 sm:p-8 shadow-card transition relative overflow-hidden">
+          <div class="flex items-start gap-5">
+            <div class="flex-none grid place-items-center h-16 w-16 rounded-full font-display text-xl font-semibold bg-cream-300 text-bridge-700 shadow-card">
+              CD
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h3 class="font-display text-2xl font-semibold tracking-snug text-ink-900 leading-tight">
+                    Country Anchor — DRC
+                  </h3>
+                  <p class="mt-1 text-sm text-bridge-600 font-medium">Country Anchor — DRC</p>
+                </div>
+                <StatusPill status="preview" small={true} />
+              </div>
+              <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-500">TBD · DRC (FR / EN)</p>
+            </div>
+          </div>
+          <p class="mt-5 text-base text-ink-700 leading-relaxed text-pretty">
+            A Kinshasa- or Lubumbashi-based academic or PNLP programme officer with francophone modelling
+            networks. Anchor for DRC document curation and the first bilingual dossier.
+          </p>
+          <p class="mt-4 inline-flex items-center gap-2 rounded-md bg-cream-100 border border-cream-300 px-3 py-1.5 text-xs font-mono text-bridge-700">
+            <span class="h-1.5 w-1.5 rounded-full bg-ember-400"></span>
+            Outreach opens v0.1
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Working-modeller network -->
+  <section class="border-b border-bridge-100/40 bg-bridge-700 text-cream-50 relative overflow-hidden">
+    <div class="grain-overlay opacity-[0.25]"></div>
+    <div class="container-page relative py-20 sm:py-24">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <p class="font-mono text-xs uppercase tracking-[0.18em] text-bridge-200 mb-4">Working-modeller network</p>
+          <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-snug text-cream-50 text-balance leading-tight">
+            The methods conscience.
+          </h2>
+          <p class="mt-6 text-base text-bridge-100/90 leading-relaxed text-pretty max-w-prose">
+            These are the pro-bono advisers AMB consults before publishing methods notes or matching a
+            researcher to a dossier. They are not staff; they are the bench every methodological choice
+            is checked against. The
+            <a href="/africa-modelling-bridge/about/governance" class="link-underline decoration-ember-400/60 hover:decoration-ember-400 text-cream-50">working-modeller advisory model</a>
+            is documented in governance.
+          </p>
+        </div>
+        <div class="lg:col-span-7">
+          <ul class="grid sm:grid-cols-2 gap-px bg-bridge-600/40 rounded-2xl overflow-hidden border border-bridge-500/30">
+            {advisers.map((a) => (
+              <li class="bg-bridge-700 p-5">
+                <div class="flex items-baseline justify-between gap-3">
+                  <p class="font-display text-lg font-semibold text-cream-50 leading-tight">{a.name}</p>
+                </div>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-ember-200">{a.tag}</p>
+                <p class="mt-3 text-sm text-bridge-100/85 leading-relaxed text-pretty">{a.note}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Joining AMB -->
+  <section>
+    <div class="container-page py-20 sm:py-24">
+      <div class="mb-12 max-w-readable">
+        <p class="eyebrow mb-4">Joining AMB</p>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-snug text-ink-900 text-balance">
+          Three doors in.
+        </h2>
+        <p class="mt-6 text-lg text-ink-600 leading-relaxed text-pretty">
+          AMB is small by design. Engagement at v0.0 is concrete — a country anchor seat, a
+          pro-bono adviser role, or a researcher matched to an open dossier.
+        </p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card">
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600 mb-4">01 · Country anchors</p>
+          <h3 class="font-display text-xl font-semibold tracking-snug text-ink-900">For ministry-side senior researchers.</h3>
+          <p class="mt-3 text-sm text-ink-600 leading-relaxed text-pretty">
+            A senior researcher or programme officer co-curates one country's document index and
+            supervises its first dossier. Honorarium attached. One seat per country.
+          </p>
+          <p class="mt-4 font-mono text-[11px] text-bridge-500">Open · TZ · MW · DRC</p>
+        </div>
+        <div class="rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card">
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600 mb-4">02 · Working-modeller advisers</p>
+          <h3 class="font-display text-xl font-semibold tracking-snug text-ink-900">For methods leads in IDEM-LAB / MAP / Vector Atlas / AIMS / ACEFA.</h3>
+          <p class="mt-3 text-sm text-ink-600 leading-relaxed text-pretty">
+            Pro-bono. One or two methods consultations per quarter, named on the dossiers you
+            touch, no committee meetings. The lens, not the labour.
+          </p>
+          <p class="mt-4 font-mono text-[11px] text-bridge-500">Rolling · pro-bono</p>
+        </div>
+        <div class="rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card">
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600 mb-4">03 · Researchers</p>
+          <h3 class="font-display text-xl font-semibold tracking-snug text-ink-900">For BSc / MSc / PhD students seeking a dossier match.</h3>
+          <p class="mt-3 text-sm text-ink-600 leading-relaxed text-pretty">
+            Self-nominate against an open dossier from v0.5. Each match comes with a question,
+            a supervisor, a working-modeller adviser, a budget ask, and an open-access output.
+          </p>
+          <p class="mt-4 font-mono text-[11px] text-bridge-500">Matching opens v0.5</p>
+        </div>
+      </div>
+
+      <!-- CTA strip -->
+      <div class="mt-12 rounded-2xl border border-ember-500/30 bg-gradient-to-br from-cream-50 to-cream-100/60 p-8 sm:p-10 shadow-card">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-center">
+          <div class="lg:col-span-8">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-600 mb-3">Contact route · v0.0</p>
+            <h3 class="font-display text-2xl sm:text-3xl font-semibold tracking-snug text-ink-900 text-balance">
+              The only inbox we run at v0.0 is the newsletter.
+            </h3>
+            <p class="mt-4 text-base text-ink-600 leading-relaxed text-pretty max-w-prose">
+              Sign up to the monthly digest. Reply to any issue and Ernest will respond inside three
+              working days. Direct outreach forms — country-anchor, adviser, researcher — open on v0.1.
+            </p>
+          </div>
+          <div class="lg:col-span-4 lg:text-right">
+            <a
+              href="/africa-modelling-bridge/#newsletter"
+              class="inline-flex items-center gap-2 rounded-md bg-ember-500 px-5 py-3 text-sm font-medium text-cream-50 shadow-card hover:bg-ember-600 hover:-translate-y-px transition"
+            >
+              Subscribe · M19
+              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <p class="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400 lg:text-right">
+              Buttondown · no third-party trackers
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>

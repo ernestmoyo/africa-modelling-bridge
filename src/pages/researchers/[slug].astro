@@ -1,0 +1,213 @@
+---
+import Base from '@/layouts/Base.astro';
+import StatusPill from '@/components/StatusPill.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const items = await getCollection('researchers');
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'researchers'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+const { name, role, institution, country, methods, bio, placeholder, links, open_to_support } =
+  item.data;
+
+const initialsFor = (n: string): string =>
+  n
+    .replace(/—.*/, '')
+    .trim()
+    .split(/\s+/)
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+
+const linkList: Array<{ key: string; label: string; href: string }> = [];
+if (links?.orcid) linkList.push({ key: 'orcid', label: 'ORCID', href: links.orcid });
+if (links?.github) linkList.push({ key: 'github', label: 'GitHub', href: links.github });
+if (links?.x) linkList.push({ key: 'x', label: 'X', href: links.x });
+if (links?.linkedin) linkList.push({ key: 'linkedin', label: 'LinkedIn', href: links.linkedin });
+---
+
+<Base
+  title={name}
+  description={`${name} — ${role}. ${bio.slice(0, 140)}`}
+>
+  <!-- ───────────────────────── Header ───────────────────────── -->
+  <section class="border-b border-bridge-100/60 bg-cream-100/40">
+    <div class="container-page py-12 sm:py-16">
+      <nav class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-400">
+        <a href="/africa-modelling-bridge/" class="hover:text-bridge-700">Home</a>
+        <span class="mx-2 text-bridge-300">/</span>
+        <a href="/africa-modelling-bridge/researchers" class="hover:text-bridge-700">Researchers</a>
+        <span class="mx-2 text-bridge-300">/</span>
+        <span class="text-ink-700">{name}</span>
+      </nav>
+
+      <div class="mt-10 grid items-start gap-10 md:grid-cols-12">
+        <div class="md:col-span-3 flex justify-center md:justify-start">
+          <div
+            class={`relative grid h-40 w-40 place-items-center rounded-full font-display text-5xl font-light shadow-lift ${
+              placeholder
+                ? 'bg-cream-300 text-ink-600'
+                : 'bg-bridge-600 text-cream-50'
+            }`}
+            aria-hidden="true"
+          >
+            {initialsFor(name)}
+            {!placeholder && (
+              <span class="absolute -right-1 bottom-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-cream-50 text-bridge-600 shadow-card">
+                <svg viewBox="0 0 12 12" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l2 2 4-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            )}
+          </div>
+        </div>
+
+        <div class="md:col-span-9">
+          <div class="flex flex-wrap items-center gap-2">
+            {placeholder && <StatusPill status="preview" />}
+            {open_to_support && (
+              <span class="inline-flex items-center rounded-full bg-ember-50 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-ember-700">
+                Open to support
+              </span>
+            )}
+          </div>
+          <h1 class="mt-4 font-display text-4xl font-light leading-tight tracking-tightest text-ink-900 sm:text-5xl text-balance">
+            {name}
+          </h1>
+          <p class="mt-3 text-lg text-bridge-700">{role}</p>
+          <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1 text-sm text-ink-600">
+            {institution && (
+              <span class="inline-flex items-center gap-2">
+                <svg viewBox="0 0 20 20" class="h-3.5 w-3.5 text-bridge-400" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l7-5 7 5v8H3z"/></svg>
+                {institution}
+              </span>
+            )}
+            {country && (
+              <span class="inline-flex items-center gap-2">
+                <svg viewBox="0 0 20 20" class="h-3.5 w-3.5 text-bridge-400" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3a14 14 0 010 14M10 3a14 14 0 000 14"/></svg>
+                {country}
+              </span>
+            )}
+          </div>
+
+          {linkList.length > 0 && (
+            <div class="mt-6 flex flex-wrap gap-2">
+              {linkList.map((l) => (
+                <a
+                  href={l.href}
+                  rel="noopener"
+                  class="inline-flex items-center gap-2 rounded-full border border-bridge-200 bg-cream-50 px-3 py-1 text-xs font-medium text-bridge-700 transition hover:border-bridge-500 hover:bg-bridge-50"
+                >
+                  {l.label === 'GitHub' && (
+                    <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.32c-2.23.48-2.7-1.07-2.7-1.07-.37-.93-.9-1.18-.9-1.18-.73-.5.05-.49.05-.49.82.06 1.25.84 1.25.84.72 1.24 1.9.88 2.36.67.07-.52.28-.88.5-1.08-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.7 7.7 0 014 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                  )}
+                  {l.label === 'X' && (
+                    <svg viewBox="0 0 16 16" class="h-3 w-3" fill="currentColor"><path d="M12.6 1h2.4L9.7 7.1 16 15h-4.9L7 9.7 2.3 15H0l5.7-6.5L0 1h5l3.7 4.9L12.6 1zm-.9 12.6h1.4L4.4 2.4H3l8.7 11.2z"/></svg>
+                  )}
+                  {l.label === 'ORCID' && (
+                    <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="currentColor"><circle cx="8" cy="8" r="7"/></svg>
+                  )}
+                  {l.label === 'LinkedIn' && (
+                    <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="currentColor"><path d="M3 4.5A1.5 1.5 0 114.5 6 1.5 1.5 0 013 4.5zM3.2 7h2.6v7H3.2zm4.5 0h2.5v1c.4-.7 1.4-1.2 2.4-1.2 2 0 2.5 1.2 2.5 3.1V14H12.6v-3.5c0-.9-.3-1.5-1.1-1.5-.7 0-1.2.5-1.2 1.5V14H7.7z"/></svg>
+                  )}
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Methods strip ───────────────────────── -->
+  {methods.length > 0 && (
+    <section class="border-b border-bridge-100/60">
+      <div class="container-page py-8">
+        <div class="flex flex-wrap items-center gap-3">
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Methods</p>
+          {methods.map((m) => (
+            <span class="rounded-full border border-bridge-100 bg-cream-50 px-3 py-1 text-xs text-ink-700">
+              {m}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ───────────────────────── Bio + body ───────────────────────── -->
+  <section class="border-b border-bridge-100/60">
+    <div class="container-page py-16 sm:py-20">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <p class="eyebrow">Profile</p>
+          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 text-balance">
+            About {name.split(/\s+/)[0]}.
+          </h2>
+        </div>
+        <div class="lg:col-span-8">
+          <p class="text-lg leading-relaxed text-ink-700 text-pretty">{bio}</p>
+          <div class="mt-8 prose prose-base max-w-readable text-ink-700 prose-headings:font-display prose-headings:font-medium prose-headings:text-ink-900 prose-a:text-bridge-700 prose-a:no-underline hover:prose-a:underline">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Active dossiers ───────────────────────── -->
+  <section class="border-b border-bridge-100/60 bg-cream-100/40">
+    <div class="container-page py-16 sm:py-20">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">Dossiers</p>
+          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 text-balance">
+            What {name.split(/\s+/)[0]} is working on.
+          </h2>
+        </div>
+        <a href="/africa-modelling-bridge/dossiers" class="text-sm font-medium text-bridge-700 link-underline">
+          All dossiers →
+        </a>
+      </div>
+
+      <div class="mt-10 rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">
+            Dossier assignments
+          </p>
+          <StatusPill status="coming-v0_5" />
+        </div>
+        <p class="mt-5 text-base leading-relaxed text-ink-600">
+          Active dossiers will appear here as projects are assigned. Researcher–dossier mapping
+          lands on v0.5 once the first discovery sessions complete and supervisor pairings are
+          confirmed.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Footer nav ───────────────────────── -->
+  <section class="bg-cream-100">
+    <div class="container-page py-12">
+      <div class="flex flex-wrap items-center justify-between gap-6">
+        <a href="/africa-modelling-bridge/researchers" class="inline-flex items-center gap-2 text-sm font-medium text-bridge-700 link-underline">
+          ← Back to researcher directory
+        </a>
+        <a href="/africa-modelling-bridge/support" class="inline-flex items-center gap-2 text-sm font-medium text-bridge-700 link-underline">
+          See the funder pathway →
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

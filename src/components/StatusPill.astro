@@ -1,0 +1,30 @@
+---
+interface Props {
+  status: 'live' | 'beta' | 'coming-v0_1' | 'coming-v0_5' | 'coming-v1_0' | 'coming-v1_5' | 'coming-v2_0' | 'preview';
+  small?: boolean;
+}
+
+const { status, small = false } = Astro.props;
+
+const config: Record<Props['status'], { label: string; classes: string }> = {
+  'live':         { label: 'Live · v0.0',        classes: 'bg-ember-500 text-cream-50' },
+  'beta':         { label: 'Beta',                classes: 'bg-bridge-600 text-cream-50' },
+  'preview':      { label: 'Preview',             classes: 'bg-bridge-100 text-bridge-700' },
+  'coming-v0_1':  { label: 'Coming v0.1',         classes: 'bg-cream-200 text-ink-700' },
+  'coming-v0_5':  { label: 'Coming v0.5',         classes: 'bg-cream-200 text-ink-700' },
+  'coming-v1_0':  { label: 'Coming v1.0',         classes: 'bg-cream-200 text-ink-700' },
+  'coming-v1_5':  { label: 'Coming v1.5',         classes: 'bg-cream-200 text-ink-700' },
+  'coming-v2_0':  { label: 'Coming v2.0',         classes: 'bg-cream-200 text-ink-700' },
+};
+
+const c = config[status];
+---
+
+<span class:list={[
+  'inline-flex items-center gap-1 rounded-full font-mono uppercase tracking-[0.12em] whitespace-nowrap',
+  small ? 'text-[9px] px-2 py-0.5' : 'text-[10px] px-2.5 py-1',
+  c.classes,
+]}>
+  {status === 'live' && <span class="h-1.5 w-1.5 rounded-full bg-cream-50 animate-pulse"></span>}
+  {c.label}
+</span>

@@ -1,0 +1,47 @@
+---
+import Base from '@/layouts/Base.astro';
+import ComingSoonTool from '@/components/ComingSoonTool.astro';
+---
+
+<Base
+  title="AI Document Search · M13"
+  description="Natural-language search over the entire AMB document corpus with citations. Default is a citation list; AI synthesis is opt-in."
+>
+  <ComingSoonTool
+    moduleId="M13"
+    name="AI Document Search"
+    status="coming-v1_0"
+    shipPhase="v1.0 · month 6"
+    headline="Search the bridge,"
+    italic="not the web."
+    intro="A search interface over every document AMB has indexed — ministry strategic plans, surveillance bulletins, programme reviews — plus every published dossier and session note. Default mode returns a citation list of exact passages. Optional AI synthesis returns a one-paragraph answer with every claim citable to a chunk."
+    technicalLabel="Cloudflare Vectorize · @cf/baai/bge-base-en-v1.5"
+    technicalNote="At build time, every Layer-0 document and every dossier is chunked, embedded with Cloudflare's BGE-base-en model on Workers AI, and stored in Vectorize. The query worker accepts natural-language queries, embeds them, retrieves top-k chunks. The default response is a deterministic citation list — no model interpretation. AI synthesis is a separate, opt-in Claude Haiku call that always shows the underlying chunks. Default-to-citation respects the openness pledge and avoids hallucination liability."
+    features={[
+      {
+        title: 'Citation-list default',
+        body: 'Every search returns the exact passages from the indexed corpus, with document name, page and a stable permalink. No model interpretation unless you ask for it.',
+      },
+      {
+        title: 'AI synthesis · opt-in',
+        body: 'Toggle on synthesis and Claude Haiku writes a one-paragraph answer using only the retrieved chunks as context. Every claim is footnoted to a chunk you can verify.',
+      },
+      {
+        title: 'Cross-country search',
+        body: 'Ask “EPI coverage drop-out 2021–2024 across pilot countries” and see the relevant Tanzania, Malawi and DRC chunks side by side.',
+      },
+      {
+        title: 'Bilingual EN/FR',
+        body: 'French queries find French documents. Embeddings are language-aware. DRC documents and English documents share the same retrieval surface.',
+      },
+      {
+        title: 'Public-domain only',
+        body: 'M13 indexes only what M1 publishes. Take-down requests are honoured within 5 business days; the embedding index is rebuilt nightly.',
+      },
+      {
+        title: 'API access',
+        body: 'M20 exposes M13 results as JSON for partner directories (MAP, IDEM-LAB, Vector Atlas, AIMS alumni). Anyone can ingest AMB into their own tooling.',
+      },
+    ]}
+  />
+</Base>

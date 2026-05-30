@@ -1,0 +1,336 @@
+---
+import Base from '@/layouts/Base.astro';
+import StatusPill from '@/components/StatusPill.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('researchers');
+const spotlight = all.find((r) => r.data.spotlight);
+const rest = all.filter((r) => !r.data.spotlight);
+
+// Sort: confirmed first, then placeholders
+const ordered = [...rest].sort((a, b) => {
+  if (a.data.placeholder === b.data.placeholder) return a.data.name.localeCompare(b.data.name);
+  return a.data.placeholder ? 1 : -1;
+});
+
+const initialsFor = (n: string): string =>
+  n
+    .replace(/—.*/, '')
+    .trim()
+    .split(/\s+/)
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+
+const workingNetwork = [
+  {
+    name: 'Prof. Nick Golding',
+    descriptor: 'UWA Chair in Infectious Disease Modelling · head of IDEM-LAB · creator of greta · Director of Malaria Ecology at MAP.',
+  },
+  {
+    name: 'IDEM-LAB',
+    descriptor: 'Infectious Disease Ecology and Modelling lab at The Kids Research Institute Australia — methods adviser bench for AMB.',
+  },
+  {
+    name: 'Malaria Atlas Project (MAP)',
+    descriptor: 'Global malaria geospatial surfaces and modelling community — adviser channel for the malaria-anchored dossiers.',
+  },
+  {
+    name: 'Vector Atlas',
+    descriptor: 'Continental vector-ecology consortium — Ernest is embedded as a PhD student. Adviser channel for arbovirus dossiers.',
+  },
+  {
+    name: 'AIMS · African Institute for Mathematical Sciences',
+    descriptor: 'Pan-African mathematical sciences network — adviser channel for methods-heavy MSc and PhD dossiers.',
+  },
+  {
+    name: 'ACEFA · African Centre of Excellence in Foundational AI',
+    descriptor: 'Methods adviser bench for the AI-assisted scaffolds across the dossier portfolio.',
+  },
+];
+---
+
+<Base
+  title="Researchers"
+  description="The people doing the work, made visible — AMB's researcher directory, spotlight programme, and working-modeller advisory network."
+>
+  <!-- ───────────────────────── Hero ───────────────────────── -->
+  <section class="relative overflow-hidden border-b border-bridge-100/60">
+    <div class="absolute inset-0 -z-10 opacity-[0.45]" aria-hidden="true">
+      <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" class="h-full w-full">
+        <g stroke="#c1ddda" stroke-width="1" fill="none">
+          <circle cx="200" cy="200" r="80" />
+          <circle cx="600" cy="180" r="120" />
+          <circle cx="1000" cy="220" r="90" />
+          <path d="M280,200 Q440,140 480,180" />
+          <path d="M720,180 Q860,160 910,220" />
+        </g>
+      </svg>
+    </div>
+    <div class="grain-overlay opacity-[0.2]"></div>
+
+    <div class="container-page relative pt-20 pb-16 sm:pt-24 sm:pb-20">
+      <p class="eyebrow flex items-center gap-3">
+        <span class="inline-block h-px w-8 bg-bridge-300"></span>
+        Researchers
+      </p>
+      <h1 class="mt-6 max-w-4xl font-display text-balance text-4xl font-light leading-[1.05] tracking-tightest text-ink-900 sm:text-5xl lg:text-6xl">
+        The people doing the work,
+        <span class="italic text-bridge-600">made visible.</span>
+      </h1>
+      <p class="mt-8 max-w-2xl text-lg leading-relaxed text-ink-600 text-pretty">
+        AMB is a small, named collaborative — one lead consultant, one senior adviser, one country
+        anchor each in Tanzania, Malawi and DRC, and a working-modeller advisory network. The
+        monthly Spotlight foregrounds one early-career African researcher whose work the platform
+        is actively backing.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Spotlight ───────────────────────── -->
+  {spotlight && (
+    <section class="border-b border-bridge-100/60 bg-cream-100/40">
+      <div class="container-page py-16 sm:py-20">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p class="eyebrow">Spotlight · this cycle</p>
+            <h2 class="mt-3 font-display text-2xl font-light text-ink-900 text-balance">
+              The researcher currently in focus.
+            </h2>
+          </div>
+          <StatusPill status="live" small />
+        </div>
+
+        <a
+          href={`/africa-modelling-bridge/researchers/${spotlight.slug}`}
+          class="group mt-10 block overflow-hidden rounded-3xl border border-bridge-100/60 bg-cream-50 shadow-card transition hover:-translate-y-px hover:shadow-lift"
+        >
+          <div class="grid gap-0 md:grid-cols-12">
+            <div class="relative md:col-span-4 bg-bridge-700 p-10 text-cream-50 md:flex md:items-center md:justify-center">
+              <div class="absolute inset-0 opacity-[0.08]" aria-hidden="true">
+                <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" class="h-full w-full">
+                  <g stroke="#fbf8f1" stroke-width="0.5" fill="none">
+                    <circle cx="100" cy="100" r="70" />
+                    <circle cx="100" cy="100" r="50" />
+                    <circle cx="100" cy="100" r="30" />
+                  </g>
+                </svg>
+              </div>
+              <div
+                class="relative grid h-32 w-32 place-items-center rounded-full bg-cream-50 font-display text-4xl font-light text-bridge-700 shadow-lift"
+                aria-hidden="true"
+              >
+                {initialsFor(spotlight.data.name)}
+              </div>
+            </div>
+            <div class="md:col-span-8 p-10">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-600">
+                Featured researcher
+              </p>
+              <h3 class="mt-3 font-display text-3xl font-light leading-tight text-ink-900 sm:text-4xl">
+                {spotlight.data.name}
+              </h3>
+              <p class="mt-2 text-base text-bridge-700">{spotlight.data.role}</p>
+              {spotlight.data.institution && (
+                <p class="mt-1 text-sm text-ink-400">{spotlight.data.institution}</p>
+              )}
+              <p class="mt-5 max-w-2xl text-base leading-relaxed text-ink-600">
+                {spotlight.data.bio}
+              </p>
+              <div class="mt-6 flex flex-wrap gap-1.5">
+                {spotlight.data.methods.slice(0, 6).map((m) => (
+                  <span class="rounded-full border border-bridge-100 bg-cream-50 px-2.5 py-0.5 text-[11px] text-ink-600">
+                    {m}
+                  </span>
+                ))}
+              </div>
+              <p class="mt-8 inline-flex items-center gap-2 text-sm font-medium text-bridge-700 link-underline">
+                Read profile →
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <!-- ───────────────────────── All researchers ───────────────────────── -->
+  <section class="border-b border-bridge-100/60">
+    <div class="container-page py-16 sm:py-20">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">Directory</p>
+          <h2 class="mt-3 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+            The collaborative — small by design.
+          </h2>
+        </div>
+        <p class="text-sm text-ink-400">{all.length} profiles · placeholders fill on v0.1</p>
+      </div>
+
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {ordered.map((r) => (
+          <a
+            href={`/africa-modelling-bridge/researchers/${r.slug}`}
+            class="group flex flex-col rounded-2xl border border-bridge-100/60 bg-cream-50 p-6 shadow-card transition hover:-translate-y-px hover:shadow-lift"
+          >
+            <div class="flex items-start justify-between">
+              <div
+                class={`grid h-14 w-14 place-items-center rounded-full font-display text-lg font-medium ${
+                  r.data.placeholder
+                    ? 'bg-cream-300 text-ink-600'
+                    : 'bg-bridge-600 text-cream-50'
+                }`}
+                aria-hidden="true"
+              >
+                {initialsFor(r.data.name)}
+              </div>
+              <div class="flex flex-col items-end gap-1">
+                {r.data.placeholder && <StatusPill status="preview" small />}
+                {r.data.open_to_support && (
+                  <span class="inline-flex items-center rounded-full bg-ember-50 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-ember-700">
+                    Open to support
+                  </span>
+                )}
+              </div>
+            </div>
+            <h3 class="mt-5 font-display text-lg font-medium leading-snug text-ink-900 group-hover:text-bridge-700">
+              {r.data.name}
+            </h3>
+            <p class="mt-1 text-sm text-bridge-700">{r.data.role}</p>
+            {r.data.institution && (
+              <p class="mt-2 text-xs text-ink-400">{r.data.institution}</p>
+            )}
+            {r.data.methods.length > 0 && (
+              <div class="mt-5 flex flex-wrap gap-1.5">
+                {r.data.methods.slice(0, 3).map((m) => (
+                  <span class="rounded-full border border-bridge-100 px-2 py-0.5 text-[11px] text-ink-600">
+                    {m}
+                  </span>
+                ))}
+                {r.data.methods.length > 3 && (
+                  <span class="text-[11px] text-ink-400">+{r.data.methods.length - 3}</span>
+                )}
+              </div>
+            )}
+            <p class="mt-6 inline-flex items-center gap-1 text-xs font-medium text-bridge-700 link-underline">
+              View profile →
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Working-modeller network ───────────────────────── -->
+  <section class="border-b border-bridge-100/60 bg-cream-100/40">
+    <div class="container-page py-16 sm:py-20">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <p class="eyebrow">Advisory network</p>
+          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 text-balance">
+            Working modellers, pro bono.
+          </h2>
+          <p class="mt-5 text-base leading-relaxed text-ink-600">
+            Not in the researcher collection — these are the methods advisers AMB pulls into orbit
+            on a per-dossier basis. Named here so funders, students and supervisors know who is in
+            the room.
+          </p>
+        </div>
+        <div class="lg:col-span-8">
+          <ul class="divide-y divide-bridge-100/70 rounded-2xl border border-bridge-100/60 bg-cream-50 shadow-card">
+            {workingNetwork.map((n) => (
+              <li class="flex flex-col gap-2 p-6 sm:flex-row sm:items-start sm:gap-6">
+                <p class="min-w-0 sm:w-56 font-display text-base font-medium leading-snug text-ink-900">
+                  {n.name}
+                </p>
+                <p class="text-sm leading-relaxed text-ink-600">{n.descriptor}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Join the platform ───────────────────────── -->
+  <section class="bg-cream-100">
+    <div class="container-page py-16 sm:py-20">
+      <div class="grid items-start gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-6">
+          <p class="eyebrow">For early-career researchers</p>
+          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+            Join the platform.
+            <span class="italic text-bridge-600">Register your interest.</span>
+          </h2>
+          <p class="mt-5 max-w-xl text-lg leading-relaxed text-ink-600 text-pretty">
+            If you are a BSc, MSc or PhD student in Tanzania, Malawi or DRC, AMB will route a
+            country-led modelling question to you with a named supervisor, a methods adviser, and a
+            modest stipend. Researcher self-service profiles open from v0.5; for now, register
+            interest and the country anchor will reach out.
+          </p>
+        </div>
+
+        <div class="lg:col-span-6">
+          <form class="rounded-2xl border border-bridge-100 bg-cream-50 p-6 shadow-card" aria-label="Researcher interest form">
+            <div class="flex items-center justify-between">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">
+                Register interest
+              </p>
+              <StatusPill status="coming-v0_5" small />
+            </div>
+            <div class="mt-5 grid gap-3 sm:grid-cols-2">
+              <label class="block">
+                <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400">Full name</span>
+                <input
+                  type="text"
+                  disabled
+                  placeholder="e.g. Amina Komba"
+                  class="mt-1.5 w-full rounded-md border border-bridge-100 bg-cream-50 px-3 py-2 text-sm text-ink-800 placeholder:text-ink-400 disabled:opacity-70"
+                />
+              </label>
+              <label class="block">
+                <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400">Country</span>
+                <input
+                  type="text"
+                  disabled
+                  placeholder="Tanzania · Malawi · DRC"
+                  class="mt-1.5 w-full rounded-md border border-bridge-100 bg-cream-50 px-3 py-2 text-sm text-ink-800 placeholder:text-ink-400 disabled:opacity-70"
+                />
+              </label>
+              <label class="block sm:col-span-2">
+                <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400">University email</span>
+                <input
+                  type="email"
+                  disabled
+                  placeholder="you@university.ac.tz"
+                  class="mt-1.5 w-full rounded-md border border-bridge-100 bg-cream-50 px-3 py-2 text-sm text-ink-800 placeholder:text-ink-400 disabled:opacity-70"
+                />
+              </label>
+              <label class="block sm:col-span-2">
+                <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400">Research interest</span>
+                <textarea
+                  rows="3"
+                  disabled
+                  placeholder="A sentence or two on what you'd like to work on."
+                  class="mt-1.5 w-full rounded-md border border-bridge-100 bg-cream-50 px-3 py-2 text-sm text-ink-800 placeholder:text-ink-400 disabled:opacity-70"
+                ></textarea>
+              </label>
+            </div>
+            <button
+              type="button"
+              disabled
+              class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-bridge-300 px-4 py-2.5 text-sm font-medium text-cream-50 opacity-70"
+            >
+              Register interest — opens v0.5
+            </button>
+            <p class="mt-3 text-[11px] text-ink-400">
+              Form goes live on v0.5. Until then, write directly to the lead consultant — see the
+              support page.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

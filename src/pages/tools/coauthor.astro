@@ -1,0 +1,47 @@
+---
+import Base from '@/layouts/Base.astro';
+import ComingSoonTool from '@/components/ComingSoonTool.astro';
+---
+
+<Base
+  title="Dossier Co-Author · M11"
+  description="A Claude-powered assistant that helps a researcher draft concept-note sections, lit review, methods and critique for their assigned dossier. Dossier-aware and discipline-aware."
+>
+  <ComingSoonTool
+    moduleId="M11"
+    name="Dossier Co-Author"
+    status="coming-v1_0"
+    shipPhase="v1.0 · month 6"
+    headline="A research supervisor on call."
+    italic="Drafts the concept note, you keep the judgement."
+    intro="When a researcher is matched to a dossier, M11 opens a workspace with the dossier on the left and a Claude assistant on the right. The assistant is dossier-aware and discipline-aware — its system prompt encodes the Nick Golding methods register: favour mechanism plus statistics, flag the recurring traps, prefer reproducible workflows."
+    technicalLabel="Claude Sonnet · Anthropic API"
+    technicalNote="The assistant's system prompt is loaded with the dossier MDX, the linked Layer-0 documents, the methods landscape and the working-modeller adviser's notes. Every assistant turn cites its sources. The researcher's edits are versioned in Git. The whole conversation is exportable as a draft concept note in two hours of work — instead of two weeks. Editor + adviser review is mandatory before any external submission."
+    features={[
+      {
+        title: 'Dossier-aware',
+        body: 'Loaded with the dossier context, linked Layer-0 documents and prior session notes. Asks better follow-up questions because it knows what you are working on.',
+      },
+      {
+        title: 'Discipline-aware (the Nick lens)',
+        body: 'Favours mechanism plus statistical residual. Flags traps — NegBin replacing the GP, case-only likelihood claiming identifiability. Channels the methods register of a real disease-modelling supervisor.',
+      },
+      {
+        title: 'Concept-note sections',
+        body: 'Drafts: background, methods landscape, data sources, expected outputs, ethics statement, timeline, budget justification. You edit; it learns; you ship.',
+      },
+      {
+        title: 'Critique mode',
+        body: 'Switch from drafting to critique — paste a section, get a structured review against the working-modeller adviser network\'s curated standards.',
+      },
+      {
+        title: 'Citations on every turn',
+        body: 'Every claim links back to a Layer-0 document, a peer-reviewed paper, or a labelled "this is the model\'s best guess — verify". No bare assertions.',
+      },
+      {
+        title: 'Editor + adviser checkpoint',
+        body: 'Output is always an AI-generated draft. Before any external submission the assigned working-modeller adviser signs off in a 30-minute review.',
+      },
+    ]}
+  />
+</Base>

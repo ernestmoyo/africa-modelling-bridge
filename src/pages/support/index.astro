@@ -1,0 +1,633 @@
+---
+import Base from '@/layouts/Base.astro';
+import StatusPill from '@/components/StatusPill.astro';
+import { getCollection } from 'astro:content';
+
+const dossiers = await getCollection('dossiers');
+const openDossiers = dossiers.filter((d) => d.data.open_to_support);
+
+const countryFlagClass: Record<string, string> = {
+  tanzania: 'bg-emerald-700 text-cream-50',
+  malawi: 'bg-red-700 text-cream-50',
+  drc: 'bg-blue-700 text-cream-50',
+};
+const countryLabel: Record<string, string> = {
+  tanzania: 'Tanzania',
+  malawi: 'Malawi',
+  drc: 'DRC',
+};
+const difficultyLabel: Record<string, string> = {
+  bsc: 'BSc',
+  msc: 'MSc',
+  phd: 'PhD',
+  mixed: 'Mixed',
+};
+
+const tranches = [
+  {
+    id: 'engagement',
+    pct: '~58%',
+    name: 'Engagement',
+    line: 'The country layer — what actually changes minds.',
+    bullets: [
+      'Lead Consultant time',
+      'Senior adviser + working-modeller advisers',
+      'Country anchors (TZ · MW · DRC)',
+      'Document indexing',
+      'Dialogue + discovery sessions',
+      'Student topic support + stipends',
+    ],
+    funders: ['Wellcome Capacity Strengthening', 'Mastercard Young Africa Works', 'IDRC'],
+    accent: 'bridge',
+  },
+  {
+    id: 'platform',
+    pct: '~24%',
+    name: 'Platform + AI + compute',
+    line: 'The infrastructure that makes the engagement scale.',
+    bullets: [
+      'Platform build + maintenance',
+      'AI API credits (triage, co-author, methods coach)',
+      'Compute + hosting',
+      'Indexing, search, archive infrastructure',
+    ],
+    funders: [
+      'Patrick J. McGovern Foundation',
+      'Omidyar',
+      'Mozilla',
+      'Gates DPI · EU Global Gateway DPI',
+      'AI vendor partnerships (Anthropic · OpenAI for Nonprofits · Google · xAI · Cohere)',
+    ],
+    accent: 'ember',
+  },
+  {
+    id: 'brand',
+    pct: '~18%',
+    name: 'Brand · comms · MEL · contingency',
+    line: 'The connective tissue. Runs alongside everything.',
+    bullets: [
+      'Identity, design system, comms',
+      'Monthly newsletter + Spotlight',
+      'Monitoring, evaluation, learning',
+      'Operational contingency',
+    ],
+    funders: ['Open call — pairs with engagement or platform funders', 'Flexible / unrestricted preferred'],
+    accent: 'bridge',
+  },
+];
+
+const modules = [
+  {
+    id: 'M10',
+    flagship: true,
+    name: 'Document Triage',
+    line: 'Upload a ministry PDF — get BSc / MSc / PhD research questions in 30 seconds. The first live AI surface.',
+    phase: 'v0.0 · LIVE',
+    cost: 'Compute + API credits · USD 3,500 / yr',
+    unlocks: 'Students self-serve question discovery; ministries see their own documents become a research portfolio.',
+    fit: 'Patrick J. McGovern Foundation · Anthropic · OpenAI for Nonprofits',
+    status: 'live' as const,
+  },
+  {
+    id: 'M1',
+    flagship: false,
+    name: 'Document Index',
+    line: 'Indexed, citable, teachable record of publicly available ministry documents. Layer 0 of the bridge.',
+    phase: 'v0.1',
+    cost: 'Anchor time + storage · USD 6,000 / country / yr',
+    unlocks: '60 documents indexed across TZ/MW/DRC in year one. Every dossier cites from it.',
+    fit: 'Wellcome · IDRC · MasterCard Foundation',
+    status: 'coming-v0_1' as const,
+  },
+  {
+    id: 'M11',
+    flagship: false,
+    name: 'Dossier Co-Author',
+    line: 'AI-assisted scaffolding for new dossiers. Turns an anchor conversation into a draft dossier in under an hour.',
+    phase: 'v0.5',
+    cost: 'API credits + supervisor review time · USD 4,000 / yr',
+    unlocks: '30%+ of year-one dossiers AI-scaffolded. The bridge scales from 3 to 20+ dossiers.',
+    fit: 'Patrick J. McGovern · AI vendor partnerships',
+    status: 'coming-v0_5' as const,
+  },
+  {
+    id: 'M12',
+    flagship: false,
+    name: 'Methods Coach',
+    line: 'Per-dossier AI methods coach for students — channels the IDEM / MAP / Vector Atlas working-modeller bench.',
+    phase: 'v1.0',
+    cost: 'API credits + adviser review · USD 5,000 / yr',
+    unlocks: 'Methods adviser coverage scales beyond pro-bono limits. Students get a methods sparring partner.',
+    fit: 'Anthropic · Google for Nonprofits · IDRC',
+    status: 'coming-v1_0' as const,
+  },
+  {
+    id: 'M13',
+    flagship: false,
+    name: 'AI Document Search',
+    line: 'Semantic search across the country document index — in English, French, Swahili and Chichewa.',
+    phase: 'v0.5',
+    cost: 'Embeddings + retrieval · USD 3,500 / yr',
+    unlocks: 'Researchers find what they need across years of ministry output. Translation is free.',
+    fit: 'Mozilla · McGovern · DPI funders',
+    status: 'coming-v0_5' as const,
+  },
+  {
+    id: 'M14',
+    flagship: false,
+    name: 'Funding Match',
+    line: 'Match open-to-support dossiers and modules to funder interests automatically. The funder shortlist, on the platform.',
+    phase: 'v1.5',
+    cost: 'Light AI + curation · USD 2,500 / yr',
+    unlocks: 'Funders move from interest to a funded project in days, not months.',
+    fit: 'Open Philanthropy · MacArthur · co-funder partnerships',
+    status: 'coming-v1_5' as const,
+  },
+  {
+    id: 'M15',
+    flagship: false,
+    name: 'Translation',
+    line: 'Bilingual EN/FR publication of every dossier, document and Spotlight piece. DRC + Francophone Africa first.',
+    phase: 'v1.0',
+    cost: 'API + editorial review · USD 4,000 / yr',
+    unlocks: 'Francophone Africa enters the bridge on equal footing.',
+    fit: 'AFD · OIF · Gates · IDRC',
+    status: 'coming-v1_0' as const,
+  },
+  {
+    id: 'M8',
+    flagship: false,
+    name: 'Spotlight',
+    line: 'Monthly featured-researcher programme — one early-career African researcher backed publicly with stipend + adviser.',
+    phase: 'v0.5',
+    cost: 'Stipend + comms · USD 9,000 / yr (12 spotlights)',
+    unlocks: '12 named researchers per year. Visibility funds future funded work.',
+    fit: 'Mastercard Foundation · CIFF · Doris Duke',
+    status: 'coming-v0_5' as const,
+  },
+];
+---
+
+<Base
+  title="Funder pathway"
+  description="Every project on the Africa Modelling Bridge with a question, a researcher, a supervisor and a budget ask, in one place. Funders move from interest to a funded project in days."
+>
+  <!-- ───────────────────────── Hero ───────────────────────── -->
+  <section class="relative overflow-hidden border-b border-bridge-100/60">
+    <div class="absolute inset-0 -z-10 opacity-[0.5]" aria-hidden="true">
+      <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" class="h-full w-full">
+        <defs>
+          <linearGradient id="funderGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#fadcc1" stop-opacity="0.0" />
+            <stop offset="50%" stop-color="#f4b88e" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#fadcc1" stop-opacity="0.0" />
+          </linearGradient>
+        </defs>
+        <g stroke="#c1ddda" stroke-width="1" fill="none">
+          <path d="M0,300 C200,240 380,280 600,240 C820,200 980,280 1200,240" />
+          <path d="M0,340 C200,280 380,320 600,280 C820,240 980,320 1200,280" />
+        </g>
+        <path d="M 180,260 Q 600,40 1020,260" fill="none" stroke="url(#funderGrad)" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="grain-overlay opacity-[0.2]"></div>
+
+    <div class="container-page relative pt-20 pb-16 sm:pt-24 sm:pb-20">
+      <p class="eyebrow flex items-center gap-3">
+        <span class="inline-block h-px w-8 bg-bridge-300"></span>
+        Funder pathway
+      </p>
+      <h1 class="mt-6 max-w-4xl font-display text-balance text-4xl font-light leading-[1.05] tracking-tightest text-ink-900 sm:text-5xl lg:text-6xl">
+        Sponsor a question,
+        <br class="hidden sm:inline" />
+        a researcher, or a
+        <span class="italic text-ember-600">module.</span>
+      </h1>
+      <p class="mt-8 max-w-2xl text-lg leading-relaxed text-ink-600 text-pretty">
+        Every project on the Africa Modelling Bridge — with a question, a researcher, a supervisor
+        and a budget ask — in one place. Funders can move from interest to a funded project in
+        days, not months.
+      </p>
+
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          href="#tranches"
+          class="inline-flex items-center gap-2 rounded-md bg-ember-500 px-5 py-3 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-ember-600"
+        >
+          See how AMB is funded
+          <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 4v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </a>
+        <a
+          href="#dossiers"
+          class="inline-flex items-center gap-2 rounded-md border border-bridge-200 bg-cream-50 px-5 py-3 text-sm font-medium text-bridge-700 transition hover:border-bridge-500 hover:bg-bridge-50"
+        >
+          Dossiers open to support
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── How AMB is funded ───────────────────────── -->
+  <section id="tranches" class="border-b border-bridge-100/60 bg-cream-100/40">
+    <div class="container-page py-16 sm:py-20">
+      <div class="max-w-3xl">
+        <p class="eyebrow">How AMB is funded</p>
+        <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+          Three tranches. <span class="italic text-bridge-600">One bridge.</span>
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-600 text-pretty">
+          The budget splits cleanly into three tranches a funder can sponsor individually or in
+          combination. Engagement is the largest — country anchors, dialogue and student support.
+          Platform + AI is the multiplier. Brand and MEL run alongside.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-6 lg:grid-cols-3">
+        {tranches.map((t) => (
+          <article class="flex flex-col rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card">
+            <div class="flex items-baseline justify-between">
+              <p class={`font-display text-5xl font-light tracking-tightest ${t.accent === 'ember' ? 'text-ember-600' : 'text-bridge-600'}`}>
+                {t.pct}
+              </p>
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-400">
+                of budget
+              </p>
+            </div>
+            <h3 class="mt-5 font-display text-2xl font-medium leading-tight text-ink-900">
+              {t.name}
+            </h3>
+            <p class="mt-2 text-sm text-ink-600">{t.line}</p>
+
+            <ul class="mt-6 space-y-2 text-sm text-ink-700">
+              {t.bullets.map((b) => (
+                <li class="flex items-start gap-2">
+                  <span class={`mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full ${t.accent === 'ember' ? 'bg-ember-500' : 'bg-bridge-500'}`}></span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+
+            <div class="mt-6 border-t border-bridge-100/70 pt-5">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">
+                Recommended primaries
+              </p>
+              <ul class="mt-3 space-y-1.5 text-xs text-ink-600">
+                {t.funders.map((f) => (
+                  <li>· {f}</li>
+                ))}
+              </ul>
+            </div>
+
+            <a
+              href="mailto:ernest@africamodellingbridge.org?subject=Funder%20conversation"
+              class={`mt-7 inline-flex w-full items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition hover:-translate-y-px ${
+                t.accent === 'ember'
+                  ? 'bg-ember-500 text-cream-50 shadow-card hover:bg-ember-600'
+                  : 'bg-bridge-600 text-cream-50 shadow-card hover:bg-bridge-700'
+              }`}
+            >
+              Talk to us
+              <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Open dossiers ───────────────────────── -->
+  <section id="dossiers" class="border-b border-bridge-100/60">
+    <div class="container-page py-16 sm:py-20">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow">Open to support · Dossiers</p>
+          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+            The shortlist. <span class="italic text-bridge-600">Country by country.</span>
+          </h2>
+          <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-600">
+            Each row is a single research question with a feasible timeline, a named supervisor (on
+            v0.1) and a budget. Designed to be scannable in 90 seconds.
+          </p>
+        </div>
+        <p class="text-sm text-ink-400">{openDossiers.length} open</p>
+      </div>
+
+      <div class="mt-10 overflow-hidden rounded-2xl border border-bridge-100/60 bg-cream-50 shadow-card">
+        <ul class="divide-y divide-bridge-100/70">
+          {openDossiers.map((d) => (
+            <li id={d.slug} class="group">
+              <div class="grid gap-4 p-6 sm:p-7 lg:grid-cols-12 lg:items-center">
+                <div class="lg:col-span-1 flex lg:justify-center">
+                  <span class={`inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] ${countryFlagClass[d.data.country]}`}>
+                    {countryLabel[d.data.country]}
+                  </span>
+                </div>
+
+                <div class="lg:col-span-6">
+                  <h3 class="font-display text-lg font-medium leading-snug text-ink-900">
+                    {d.data.title}
+                  </h3>
+                  <p class="mt-1.5 text-sm leading-relaxed text-ink-600">{d.data.one_line}</p>
+                  <div class="mt-3 flex flex-wrap gap-1.5">
+                    {d.data.methods.slice(0, 3).map((m) => (
+                      <span class="rounded-full border border-bridge-100 px-2 py-0.5 text-[10px] text-ink-600">
+                        {m}
+                      </span>
+                    ))}
+                    {d.data.methods.length > 3 && (
+                      <span class="text-[10px] text-ink-400">+{d.data.methods.length - 3}</span>
+                    )}
+                  </div>
+                </div>
+
+                <div class="lg:col-span-2 flex items-center gap-3">
+                  <span class="inline-flex items-center rounded-md bg-bridge-50 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-bridge-700">
+                    {difficultyLabel[d.data.difficulty]}
+                  </span>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
+                    {d.data.time_estimate_months} mo
+                  </span>
+                </div>
+
+                <div class="lg:col-span-2">
+                  <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-600">
+                    Budget ask
+                  </p>
+                  <p class="mt-1 font-display text-xl font-light text-ink-900">
+                    USD {d.data.budget_ask_usd?.toLocaleString()}
+                  </p>
+                </div>
+
+                <div class="lg:col-span-1 lg:text-right">
+                  <a
+                    href={`/africa-modelling-bridge/dossiers/${d.slug}`}
+                    class="inline-flex items-center gap-1 text-sm font-medium text-bridge-700 link-underline"
+                  >
+                    Support →
+                  </a>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Open modules ───────────────────────── -->
+  <section class="border-b border-bridge-100/60 bg-cream-100/40">
+    <div class="container-page py-16 sm:py-20">
+      <div class="max-w-3xl">
+        <p class="eyebrow">Open to support · Modules</p>
+        <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+          Sponsor a module. <span class="italic text-bridge-600">It unlocks every dossier.</span>
+        </h2>
+        <p class="mt-5 max-w-2xl text-base leading-relaxed text-ink-600">
+          Modules are the standalone-sponsorable AI and platform surfaces of the bridge. M10
+          (Document Triage) is the flagship and the only one live in v0.0. Each module names its
+          ship phase, its cost, what it unlocks, and the funder fit.
+        </p>
+      </div>
+
+      <!-- Flagship M10 -->
+      {modules.filter((m) => m.flagship).map((m) => (
+        <article class="mt-12 overflow-hidden rounded-3xl border border-ember-200 bg-ember-50 shadow-lift">
+          <div class="grid gap-0 md:grid-cols-12">
+            <div class="md:col-span-4 bg-bridge-700 p-8 text-cream-50">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-200">
+                Flagship module
+              </p>
+              <p class="mt-3 font-display text-5xl font-light tracking-tightest">{m.id}</p>
+              <p class="mt-2 font-display text-2xl font-light leading-tight">{m.name}</p>
+              <div class="mt-6 inline-flex items-center gap-2 rounded-full bg-ember-500 px-3 py-1 text-xs font-medium text-cream-50">
+                <span class="h-1.5 w-1.5 rounded-full bg-cream-50 animate-pulse"></span>
+                {m.phase}
+              </div>
+            </div>
+            <div class="md:col-span-8 p-8">
+              <p class="text-base leading-relaxed text-ink-800 text-pretty">{m.line}</p>
+              <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <dt class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-700">Cost</dt>
+                  <dd class="mt-1 text-sm text-ink-700">{m.cost}</dd>
+                </div>
+                <div>
+                  <dt class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-700">Unlocks</dt>
+                  <dd class="mt-1 text-sm text-ink-700">{m.unlocks}</dd>
+                </div>
+                <div class="sm:col-span-2">
+                  <dt class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-700">Funder fit</dt>
+                  <dd class="mt-1 text-sm text-ink-700">{m.fit}</dd>
+                </div>
+              </dl>
+              <div class="mt-7 flex flex-wrap gap-3">
+                <a
+                  href="/africa-modelling-bridge/tools/triage"
+                  class="inline-flex items-center gap-2 rounded-md bg-ember-500 px-4 py-2.5 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-ember-600"
+                >
+                  Try the live demo
+                </a>
+                <a
+                  href="mailto:ernest@africamodellingbridge.org?subject=M10%20Document%20Triage"
+                  class="inline-flex items-center gap-2 rounded-md border border-ember-300 bg-cream-50 px-4 py-2.5 text-sm font-medium text-ember-700 transition hover:border-ember-500 hover:bg-ember-50"
+                >
+                  Sponsor M10 →
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+
+      <!-- Other modules -->
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {modules.filter((m) => !m.flagship).map((m) => (
+          <article class="flex flex-col rounded-2xl border border-bridge-100/60 bg-cream-50 p-6 shadow-card">
+            <div class="flex items-start justify-between">
+              <p class="font-display text-2xl font-light tracking-tightest text-bridge-500">{m.id}</p>
+              <StatusPill status={m.status} small />
+            </div>
+            <h3 class="mt-4 font-display text-lg font-medium leading-snug text-ink-900">
+              {m.name}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">{m.line}</p>
+
+            <dl class="mt-5 space-y-3 border-t border-bridge-100/70 pt-4 text-xs">
+              <div>
+                <dt class="font-mono text-[9px] uppercase tracking-[0.18em] text-bridge-600">Cost</dt>
+                <dd class="mt-1 text-ink-700">{m.cost}</dd>
+              </div>
+              <div>
+                <dt class="font-mono text-[9px] uppercase tracking-[0.18em] text-bridge-600">Unlocks</dt>
+                <dd class="mt-1 text-ink-700">{m.unlocks}</dd>
+              </div>
+              <div>
+                <dt class="font-mono text-[9px] uppercase tracking-[0.18em] text-bridge-600">Funder fit</dt>
+                <dd class="mt-1 text-ink-700">{m.fit}</dd>
+              </div>
+            </dl>
+
+            <a
+              href={`mailto:ernest@africamodellingbridge.org?subject=${m.id}%20${m.name}`}
+              class="mt-6 inline-flex items-center gap-1 text-sm font-medium text-bridge-700 link-underline"
+            >
+              Sponsor {m.id} →
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Scenarios ───────────────────────── -->
+  <section class="border-b border-bridge-100/60">
+    <div class="container-page py-16 sm:py-20">
+      <div class="max-w-3xl">
+        <p class="eyebrow">Scenarios</p>
+        <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+          What USD 25k or USD 50k actually buys.
+        </h2>
+      </div>
+
+      <div class="mt-12 grid gap-6 lg:grid-cols-2">
+        <article class="flex flex-col rounded-2xl border border-bridge-100/60 bg-cream-50 p-8 shadow-card">
+          <div class="flex items-baseline justify-between">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">Scenario A</p>
+            <p class="font-display text-xs uppercase tracking-[0.18em] text-ink-400">Year one</p>
+          </div>
+          <p class="mt-3 font-display text-5xl font-light tracking-tightest text-ink-900">
+            USD 25,000
+          </p>
+          <p class="mt-3 text-sm text-ink-600">Lean v0.0 → v0.5 trajectory.</p>
+
+          <ul class="mt-7 space-y-3 border-t border-bridge-100/70 pt-5 text-sm text-ink-700">
+            <li class="flex gap-3">
+              <span class="font-mono text-bridge-500">·</span>
+              Lead Consultant time + senior adviser
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-bridge-500">·</span>
+              One country anchor (Tanzania) at 25% FTE
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-bridge-500">·</span>
+              Layer-0 document index: 20 docs · Tanzania
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-bridge-500">·</span>
+              One MSc dossier funded end-to-end
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-bridge-500">·</span>
+              M10 Document Triage in production
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-bridge-500">·</span>
+              Platform + comms + monthly Spotlight
+            </li>
+          </ul>
+
+          <p class="mt-7 border-t border-bridge-100/70 pt-5 text-xs leading-relaxed text-ink-400">
+            Demonstrates the loop end-to-end in one country. Hands a funder a clean evidence base
+            for a year-two scale-up.
+          </p>
+        </article>
+
+        <article class="flex flex-col rounded-2xl border border-ember-200 bg-ember-50 p-8 shadow-lift">
+          <div class="flex items-baseline justify-between">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-700">Scenario B</p>
+            <p class="font-display text-xs uppercase tracking-[0.18em] text-ember-600">Recommended</p>
+          </div>
+          <p class="mt-3 font-display text-5xl font-light tracking-tightest text-ink-900">
+            USD 50,000
+          </p>
+          <p class="mt-3 text-sm text-ink-700">Three-country v0.0 → v1.0 trajectory.</p>
+
+          <ul class="mt-7 space-y-3 border-t border-ember-200 pt-5 text-sm text-ink-700">
+            <li class="flex gap-3">
+              <span class="font-mono text-ember-600">·</span>
+              Everything in Scenario A, plus
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-ember-600">·</span>
+              Three country anchors (TZ · MW · DRC)
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-ember-600">·</span>
+              60 documents indexed across all three countries
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-ember-600">·</span>
+              Three dossiers funded end-to-end (1× PhD, 2× MSc)
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-ember-600">·</span>
+              M11 Dossier Co-Author live
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-ember-600">·</span>
+              First dialogue + discovery sessions in all three countries
+            </li>
+            <li class="flex gap-3">
+              <span class="font-mono text-ember-600">·</span>
+              Bilingual EN/FR publication for DRC
+            </li>
+          </ul>
+
+          <p class="mt-7 border-t border-ember-200 pt-5 text-xs leading-relaxed text-ember-700">
+            The full bridge, end-to-end, in three countries. The configuration AMB is designed for.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Contact ───────────────────────── -->
+  <section class="bg-bridge-700 text-cream-50">
+    <div class="container-page py-20 sm:py-24">
+      <div class="grid items-center gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-7">
+          <p class="font-mono text-xs uppercase tracking-[0.2em] text-ember-200">Get in touch</p>
+          <h2 class="mt-4 font-display text-4xl font-light leading-tight tracking-snug text-cream-50 sm:text-5xl text-balance">
+            One conversation,
+            <span class="italic text-ember-200">moves a project.</span>
+          </h2>
+          <p class="mt-6 max-w-xl text-lg leading-relaxed text-cream-100/85 text-pretty">
+            Write to Ernest Moyo, Lead Consultant. For senior-adviser introductions or
+            funder-network routing, mention Lesley-Anne Long — she opens the doors AMB needs in
+            year one.
+          </p>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="rounded-2xl border border-cream-50/20 bg-bridge-800/50 p-7 backdrop-blur">
+            <div>
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-cream-100/60">
+                Lead Consultant
+              </p>
+              <p class="mt-2 font-display text-2xl font-light text-cream-50">Ernest Moyo</p>
+              <p class="mt-1 text-sm text-cream-100/70">Moyo Advisory · Vector Atlas (PhD)</p>
+            </div>
+
+            <a
+              href="mailto:ernest@africamodellingbridge.org?subject=AMB%20funder%20conversation"
+              class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-ember-500 px-5 py-3 text-sm font-medium text-cream-50 shadow-lift transition hover:-translate-y-px hover:bg-ember-600"
+            >
+              ernest@africamodellingbridge.org
+              <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </a>
+
+            <div class="mt-6 border-t border-cream-50/15 pt-5">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-cream-100/60">
+                Senior adviser · introductions
+              </p>
+              <p class="mt-2 text-sm text-cream-100/85">
+                Lesley-Anne Long · Wonderfuture · Lunch for Democracy
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

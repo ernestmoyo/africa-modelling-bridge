@@ -1,0 +1,116 @@
+---
+import Base from '@/layouts/Base.astro';
+import StatusPill from '@/components/StatusPill.astro';
+import TriageDemo from '@/components/TriageDemo.tsx';
+
+const steps = [
+  {
+    n: '01',
+    title: 'Public-domain only',
+    body: 'Every document AMB processes is already public. The platform makes it findable, citable and teachable — never republishes anything confidential. Hash-checked against a registry of sources MoHs have asked us not to ingest.',
+  },
+  {
+    n: '02',
+    title: 'Editor review is mandatory',
+    body: 'Outputs are AI-generated drafts. From v0.5 onwards, every generated question goes into an editor queue. Ernest, country anchors and working-modeller advisers review before anything publishes as a dossier.',
+  },
+  {
+    n: '03',
+    title: 'The cost is small and visible',
+    body: 'A single triage run costs about USD 0.06 in Anthropic API tokens. From v0.5 the public analytics dashboard shows month-to-date AI spend per module — funders see exactly what their tokens bought.',
+  },
+] as const;
+
+const roadmap = [
+  { status: 'coming-v0_1' as const, label: 'Document upload queue + editor inbox' },
+  { status: 'coming-v0_5' as const, label: "Refinement chat loop · ‘make this MSc-tier’, ‘focus on the Lake region’" },
+  { status: 'coming-v0_5' as const, label: 'Persistent audit log · 12-month retention then purge' },
+  { status: 'coming-v1_0' as const, label: 'Cross-link suggestions via Vectorize embeddings' },
+  { status: 'coming-v1_0' as const, label: 'OCR for scanned PDFs (PyMuPDF / Mistral OCR)' },
+  { status: 'coming-v1_5' as const, label: 'Public-for-ministry-contacts mode (Cloudflare Access)' },
+];
+---
+
+<Base
+  title="Document Triage · the magic moment"
+  description="Upload a public-domain ministry document and AMB returns a structured summary plus three candidate research questions at BSc, MSc and PhD tiers — in about 30 seconds."
+>
+  <section class="relative overflow-hidden border-b border-bridge-100/50">
+    <div class="grain-overlay"></div>
+    <div class="container-wide py-16 sm:py-24 relative">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="eyebrow">M10 · DOCUMENT TRIAGE</span>
+        <StatusPill status="live" />
+      </div>
+      <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tightest text-balance leading-[1.05]">
+        Upload a ministry document.<br />
+        <span class="italic text-bridge-700">Get research questions in thirty seconds.</span>
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-ink-600 leading-relaxed text-pretty">
+        Africa Modelling Bridge's flagship AI module. Pick a sample document — a national malaria
+        report, an EPI bulletin, a Francophone strategic plan — and watch Claude draft three
+        candidate research questions a student could actually take up, with methods, data sources
+        and timeline. The magic moment.
+      </p>
+      <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-[0.12em] text-ink-500">
+        <span class="inline-flex items-center gap-2">
+          <span class="h-1.5 w-1.5 rounded-full bg-ember-500 animate-pulse"></span>
+          Live demo · v0.0
+        </span>
+        <span>Anthropic API · Claude Sonnet</span>
+        <span>Rate-limit · 3 runs / hour / IP</span>
+        <span>Public documents only</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative">
+    <div class="container-wide py-12 sm:py-16">
+      <TriageDemo client:load />
+    </div>
+  </section>
+
+  <section class="border-t border-bridge-100/60 bg-cream-100/40">
+    <div class="container-wide py-16 grid gap-10 md:grid-cols-3">
+      {steps.map((s) => (
+        <div class="relative">
+          <div class="font-display text-5xl font-light text-ember-500 leading-none">{s.n}</div>
+          <h3 class="mt-3 font-display text-xl font-semibold text-ink-900">{s.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-600">{s.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="border-t border-bridge-100/60">
+    <div class="container-wide py-16">
+      <div class="grid gap-10 md:grid-cols-2 items-start">
+        <div>
+          <span class="eyebrow">WHAT'S NEXT</span>
+          <h2 class="mt-3 font-display text-3xl sm:text-4xl font-semibold text-balance leading-tight">
+            The full M10 lifecycle — v0.5 onwards.
+          </h2>
+          <p class="mt-4 text-ink-600 text-lg leading-relaxed">
+            The demo is the magic moment. The product is the full editor flow: refinement loop,
+            persistent audit log, cross-link suggestions to existing dossiers, OCR for scanned PDFs,
+            ministry-context grounding via embeddings over the indexed corpus.
+          </p>
+          <a
+            href="/africa-modelling-bridge/about/governance"
+            class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-bridge-700 link-underline"
+          >
+            See the full module status board →
+          </a>
+        </div>
+        <ul class="space-y-3 text-sm">
+          {roadmap.map((r) => (
+            <li class="flex items-center justify-between gap-4 rounded-lg border border-bridge-100 bg-cream-50 px-4 py-3 hover:shadow-card transition">
+              <span class="text-ink-700">{r.label}</span>
+              <StatusPill status={r.status} small />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>

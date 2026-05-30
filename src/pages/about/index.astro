@@ -1,0 +1,264 @@
+---
+import Base from '@/layouts/Base.astro';
+
+const openness: { title: string; body: string }[] = [
+  {
+    title: 'Already-public source material',
+    body: 'Every document we index is already in the public domain — ministry strategic plans, surveillance bulletins, programme reports, HMIS summaries, climate-and-health briefs.',
+  },
+  {
+    title: 'Open outputs with a DOI',
+    body: 'Working papers, methods notes and briefs are deposited to Zenodo with a DOI. Text is CC-BY, code is MIT — no walled gardens.',
+  },
+  {
+    title: 'Edits via public pull request',
+    body: 'Every change to the platform is a public commit. The git history is the audit trail. Editors review every PR before merge.',
+  },
+  {
+    title: 'Take-down honoured within 5 business days',
+    body: 'Even though indexed material is already public, we honour any ministry take-down request inside one working week — and the public log records each one.',
+  },
+  {
+    title: 'No third-party trackers',
+    body: 'Privacy-respecting analytics only. No advertising pixels, no behavioural retargeting, no third-party cookies.',
+  },
+  {
+    title: 'AI drafts labelled, editors review',
+    body: 'AI-generated drafts are labelled where they appear. A human editor signs off before anything is published under the AMB name.',
+  },
+];
+
+const cards: { href: string; eyebrow: string; title: string; body: string }[] = [
+  {
+    href: '/africa-modelling-bridge/about/team',
+    eyebrow: 'Who is doing this',
+    title: 'Team',
+    body: 'Lead consultant, senior adviser, country anchors, and the pro-bono working-modeller network.',
+  },
+  {
+    href: '/africa-modelling-bridge/about/governance',
+    eyebrow: 'How it is built',
+    title: 'Governance',
+    body: 'Module-by-module status board, editorial workflow, take-down policy, public token-spend.',
+  },
+  {
+    href: '/africa-modelling-bridge/approach',
+    eyebrow: 'What we actually do',
+    title: 'Approach',
+    body: 'The three-layer method — dialogue, dossiers, build-ready research packages.',
+  },
+];
+---
+
+<Base title="About" description="A consultant-led collaborative bridging African ministries, universities and researchers — built in public, sector-agnostic, malaria as the worked entry-point.">
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-bridge-100/60 bg-cream-50">
+    <div class="grain-overlay"></div>
+    <div class="container-page relative py-20 sm:py-28">
+      <div class="grid gap-12 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-8">
+          <p class="eyebrow mb-6">About</p>
+          <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tightest text-ink-900 text-balance leading-[1.05]">
+            A consultant-led collaborative<br class="hidden sm:block" />
+            <span class="text-bridge-600">for African decisions.</span>
+          </h1>
+          <p class="mt-8 max-w-readable text-lg sm:text-xl text-ink-600 text-pretty leading-relaxed">
+            Africa Modelling Bridge turns publicly available information into a living dialogue between
+            African ministries, African universities and the modellers who can answer their questions.
+            We are small, country-led, and openly governed — built so a funder can sponsor a single
+            module or the whole collaborative.
+          </p>
+        </div>
+        <div class="lg:col-span-4">
+          <div class="rounded-2xl border border-bridge-100/70 bg-cream-100/60 p-6 shadow-card">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600 mb-3">In one line</p>
+            <p class="font-display text-xl text-ink-900 leading-snug text-pretty">
+              An evidence bridge between African ministries and the people who can model their questions —
+              with malaria as the worked entry-point, but the lens is sector-agnostic.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="border-b border-bridge-100/40">
+    <div class="container-page py-20 sm:py-24">
+      <div class="grid gap-14 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <p class="eyebrow mb-4">Mission</p>
+          <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-snug text-ink-900 text-balance">
+            Bridge the room and the model.
+          </h2>
+          <div class="mt-8 h-px w-16 bg-ember-500"></div>
+        </div>
+        <div class="lg:col-span-8 space-y-6 max-w-readable">
+          <p class="text-lg text-ink-700 leading-relaxed text-pretty">
+            African ministries already produce most of the data, analysis and strategy worth modelling.
+            African universities already train the modellers who could work with it. What is missing is
+            the connective tissue — the dossier on a ministry's desk that says <em>here is the question, here is
+            the dataset, here is the supervisor, here is a researcher who can hold it for six months</em>.
+            AMB is that connective tissue.
+          </p>
+          <p class="text-lg text-ink-700 leading-relaxed text-pretty">
+            We take publicly available material — strategic plans, surveillance bulletins, programme
+            reports, HMIS summaries — and route the questions it raises to BSc, MSc and PhD students
+            across the continent. Each match becomes a concept note, a supervisor, a budget ask, and an
+            output deposited under an open licence with a DOI. The student earns a real CV line; the
+            ministry receives a useful answer; the funder sees the path from money to evidence in days,
+            not months.
+          </p>
+          <p class="text-lg text-ink-700 leading-relaxed text-pretty">
+            The lens is sector-agnostic — health systems, surveillance, NCDs, climate-and-health,
+            vaccine delivery — with malaria as the v0.0 worked entry-point because that is where the
+            lead consultant's networks are deepest. Country pilots run in Tanzania, Malawi and DRC.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why this, why now -->
+  <section class="border-b border-bridge-100/40 bg-bridge-700 text-cream-50 relative overflow-hidden">
+    <div class="grain-overlay opacity-[0.25]"></div>
+    <div class="container-page relative py-20 sm:py-24">
+      <div class="grid gap-12 lg:grid-cols-12 items-start">
+        <div class="lg:col-span-5">
+          <p class="font-mono text-xs uppercase tracking-[0.18em] text-bridge-200 mb-4">Why this · why now</p>
+          <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-snug text-cream-50 text-balance leading-tight">
+            The funding floor moved.<br />The work didn't stop.
+          </h2>
+          <p class="mt-8 text-lg text-bridge-100/90 leading-relaxed text-pretty max-w-prose">
+            Development Assistance for Health fell <span class="text-cream-50 font-semibold">21%</span>
+            in 2024–25 — the steepest single-year drop in fifteen years. Sub-Saharan Africa absorbed
+            roughly <span class="text-cream-50 font-semibold">a quarter</span> of that cut. A platform
+            that routes already-public information to already-trained African researchers does more
+            with less by design — and the time to stand it up is now, while ministries are
+            reconfiguring portfolios in real time.
+          </p>
+        </div>
+        <div class="lg:col-span-7 grid sm:grid-cols-3 gap-px bg-bridge-600/40 rounded-2xl overflow-hidden border border-bridge-500/30">
+          <div class="bg-bridge-700 p-6">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-200 mb-3">DAH global</p>
+            <p class="font-display text-5xl font-semibold text-cream-50">−21%</p>
+            <p class="mt-2 text-sm text-bridge-100/80 leading-relaxed">2024 → 2025. Steepest annual fall in 15 years.</p>
+          </div>
+          <div class="bg-bridge-700 p-6">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-200 mb-3">Sub-Saharan</p>
+            <p class="font-display text-5xl font-semibold text-cream-50">−25%</p>
+            <p class="mt-2 text-sm text-bridge-100/80 leading-relaxed">Disproportionate share of the cut, on the most malaria-burdened sub-region.</p>
+          </div>
+          <div class="bg-bridge-700 p-6">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember-200 mb-3">Time horizon</p>
+            <p class="font-display text-5xl font-semibold text-cream-50">15y</p>
+            <p class="mt-2 text-sm text-bridge-100/80 leading-relaxed">Funding floor at its lowest point since 2010.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ethos: Lunch for Democracy -->
+  <section class="border-b border-bridge-100/40 bg-cream-100/40">
+    <div class="container-page py-20 sm:py-24">
+      <div class="grid gap-14 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <p class="eyebrow mb-4">Ethos</p>
+          <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-snug text-ink-900 text-balance">
+            <span class="italic">Lunch for Democracy.</span>
+          </h2>
+          <p class="mt-6 text-base text-ink-600 leading-relaxed max-w-prose">
+            The deliberative-dialogue method Lesley-Anne Long contributes to AMB. It shapes how we run
+            every session — and, quietly, how the rest of the platform is built.
+          </p>
+        </div>
+        <div class="lg:col-span-7">
+          <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-6">
+            <li class="border-l-2 border-ember-500 pl-5">
+              <p class="font-display text-lg font-medium text-ink-900">Small rooms.</p>
+              <p class="mt-1 text-sm text-ink-600 leading-relaxed">Six to twelve people. Enough for difference; few enough that everyone speaks.</p>
+            </li>
+            <li class="border-l-2 border-ember-500 pl-5">
+              <p class="font-display text-lg font-medium text-ink-900">Shared meals.</p>
+              <p class="mt-1 text-sm text-ink-600 leading-relaxed">The table changes the conversation. Food slows the cadence, levels the room.</p>
+            </li>
+            <li class="border-l-2 border-ember-500 pl-5">
+              <p class="font-display text-lg font-medium text-ink-900">No rank.</p>
+              <p class="mt-1 text-sm text-ink-600 leading-relaxed">A minister, a master's student and a working-modeller speak as equals for the duration.</p>
+            </li>
+            <li class="border-l-2 border-ember-500 pl-5">
+              <p class="font-display text-lg font-medium text-ink-900">No exclusion.</p>
+              <p class="mt-1 text-sm text-ink-600 leading-relaxed">Invitation extends to the people closest to the work, not only those with seniority.</p>
+            </li>
+            <li class="border-l-2 border-ember-500 pl-5">
+              <p class="font-display text-lg font-medium text-ink-900">Active listening.</p>
+              <p class="mt-1 text-sm text-ink-600 leading-relaxed">Reflect before you respond. The session record captures the room, not the loudest voice.</p>
+            </li>
+            <li class="border-l-2 border-ember-500 pl-5">
+              <p class="font-display text-lg font-medium text-ink-900">Respectful disagreement.</p>
+              <p class="mt-1 text-sm text-ink-600 leading-relaxed">Hard questions, soft hands. Disagreement is the point, not the failure mode.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Openness pledge -->
+  <section class="border-b border-bridge-100/40">
+    <div class="container-page py-20 sm:py-24">
+      <div class="max-w-readable mb-12">
+        <p class="eyebrow mb-4">Openness pledge</p>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-snug text-ink-900 text-balance">
+          Six commitments we will not relax.
+        </h2>
+        <p class="mt-6 text-lg text-ink-600 leading-relaxed text-pretty">
+          A bridge can only do its job if both sides trust it. These commitments hold from v0.0 onward —
+          they are not aspirational, they are the floor.
+        </p>
+      </div>
+      <ol class="grid gap-px bg-bridge-100/40 rounded-2xl overflow-hidden border border-bridge-100/60">
+        {openness.map((item, i) => (
+          <li class="bg-cream-50 p-7 flex gap-5 group">
+            <span class="flex-none font-mono text-xs uppercase tracking-[0.18em] text-bridge-500 pt-1">
+              0{i + 1}
+            </span>
+            <div>
+              <p class="font-display text-lg font-medium text-ink-900">{item.title}</p>
+              <p class="mt-2 text-sm text-ink-600 leading-relaxed text-pretty">{item.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Links -->
+  <section>
+    <div class="container-page py-20 sm:py-24">
+      <p class="eyebrow mb-4">Read on</p>
+      <h2 class="font-display text-3xl font-semibold tracking-snug text-ink-900 mb-12 text-balance">
+        Three more ways into the work.
+      </h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map((c) => (
+          <a
+            href={c.href}
+            class="group block rounded-2xl border border-bridge-100/60 bg-cream-50 p-7 shadow-card hover:shadow-lift hover:-translate-y-0.5 transition"
+          >
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600 mb-4">{c.eyebrow}</p>
+            <p class="font-display text-2xl font-semibold text-ink-900 tracking-snug">{c.title}</p>
+            <p class="mt-3 text-sm text-ink-600 leading-relaxed text-pretty">{c.body}</p>
+            <span class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-bridge-600 group-hover:text-ember-600 transition">
+              Open
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</Base>

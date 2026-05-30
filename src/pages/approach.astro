@@ -1,0 +1,358 @@
+---
+import Base from '@/layouts/Base.astro';
+import StatusPill from '@/components/StatusPill.astro';
+import { getCollection } from 'astro:content';
+
+const countries = await getCollection('countries');
+const orderedCountries = ['tanzania', 'malawi', 'drc']
+  .map((slug) => countries.find((c) => c.slug === slug))
+  .filter(Boolean);
+
+type LayerStatus = 'live' | 'coming-v0_1' | 'coming-v0_5' | 'coming-v1_0' | 'coming-v1_5' | 'coming-v2_0';
+
+interface Layer {
+  num: string;
+  title: string;
+  short: string;
+  status: LayerStatus;
+  body: string[];
+  highlights?: string[];
+  pullquote?: string;
+}
+
+const layers: Layer[] = [
+  {
+    num: '00',
+    title: 'MoH Information Bridge',
+    short: 'A citable, teachable index of publicly available ministry documents.',
+    status: 'coming-v0_1',
+    body: [
+      'Layer 0 is the unglamorous foundation everything else sits on. We index the documents that ministries already publish — strategic plans, surveillance bulletins, programme reviews, HMIS extracts, EPI bulletins, climate-health briefs — and turn them into a stable, findable, citable record that universities, students and modellers in the same country can actually use.',
+      'The index lives on the AMB website with stable URLs, version dates, and short structured summaries. It is offered back to the ministry as a public good, and re-indexed twice a year.',
+    ],
+    highlights: [
+      'Country-scoped: TZ, MW, DRC at v0.1',
+      'Stable URLs + DOIs where appropriate',
+      'Co-curated with the in-country anchor',
+    ],
+    pullquote:
+      'Real institutional dialogue does not happen on public forums. It happens in rooms, then surfaces as durable artefacts.',
+  },
+  {
+    num: '01',
+    title: 'Dialogue sessions',
+    short: 'Small in-person rooms. Two to four per country per year.',
+    status: 'coming-v0_5',
+    body: [
+      'Layer 1 is the *Lunch for Democracy* lens applied to public-health modelling. Sessions are intentionally small — 15 to 25 people — and run around a shared meal. Ground rules: active listening, respectful disagreement, no rank in the room, no exclusion by discipline or seniority.',
+      'Each session opens with a short ministry brief on a current decision; it closes with a working list of modelling questions and a named follow-up owner. Notes are summarised, scrubbed for attribution, and folded into the Layer 2 portfolio.',
+    ],
+    highlights: [
+      '15–25 people; one ministry brief; one shared meal',
+      'Co-hosted with the country anchor',
+      'No press, no livestream, attribution by consent only',
+    ],
+  },
+  {
+    num: '02',
+    title: 'Annual modelling-question portfolio',
+    short: '3–5 country questions per year, feasible on a student timeline.',
+    status: 'coming-v0_5',
+    body: [
+      'Layer 2 is where dialogue becomes work. The country anchor, the ministry, and the lead consultant draft a short portfolio of three to five modelling questions per country per year. Each question is feasible on a six-to-twelve-month student timeline, draws on publicly available data, and answers something a programme officer will recognise as their problem.',
+      'The portfolio is published openly on the site; it is the menu universities pick from for the next discovery cycle.',
+    ],
+    highlights: [
+      '6–12 month feasible scope',
+      'Publicly available data only at v0.5',
+      'Ministry sign-off before publication',
+    ],
+  },
+  {
+    num: '03',
+    title: 'Discovery sessions at universities',
+    short: 'Interactive, inclusive, two to four per country per year.',
+    status: 'coming-v0_5',
+    body: [
+      'Layer 3 takes the Layer 2 portfolio onto campus. Two to four discovery sessions per country, hosted by partner universities, open to any student or staff member regardless of background who wants to engage in good faith.',
+      'Each session walks through one or two questions, presents the methods landscape, includes a peer panel with a working modeller from the country anchor\'s network, and ends with a concrete follow-up plan — who is taking which question forward, and who they will work with.',
+    ],
+    highlights: [
+      'Open access — no entry by invitation',
+      'One working modeller on every panel',
+      'A named follow-up emerges from every session',
+    ],
+  },
+  {
+    num: '04',
+    title: 'Concept-note co-formulation, lectures and supervision support',
+    short: 'Methods brief, named adviser, peer channel, year-end showcase.',
+    status: 'coming-v1_0',
+    body: [
+      'Layer 4 is the thin scaffolding around the student. AMB provides a short methods brief tailored to the question, helps the candidate co-formulate the concept note, attaches a named adviser from the modeller network, and opens a peer channel of students working on adjacent questions.',
+      'Each candidate also gets a profile on the platform, and — where appropriate — an *open-to-support* tag that lets funders see and back individual projects. The year ends with a showcase: every candidate presents what they learned, in front of their ministry, their supervisor, and the network.',
+    ],
+    highlights: [
+      'Named adviser per candidate',
+      'Peer student channel (asynchronous)',
+      'Year-end showcase; open-to-support visibility',
+    ],
+  },
+  {
+    num: '05',
+    title: 'Communications, archive, spotlight and visibility',
+    short: 'Public-facing layer: index, project pages, DOIs, monthly spotlight.',
+    status: 'coming-v1_0',
+    body: [
+      'Layer 5 is what the rest of the world sees. The website publishes the document index, the question portfolio, the project profiles and the output archive (with Zenodo DOIs for anything substantive). A monthly researcher spotlight surfaces one student, one method, one country.',
+      'A funder-facing index — separate from the public site — lists every open-to-support dossier with budget asks, timelines, and named contacts.',
+    ],
+    highlights: [
+      'Zenodo DOIs for outputs',
+      'Monthly researcher spotlight',
+      'Separate funder-facing dossier index',
+    ],
+  },
+];
+
+const statusFor = (s: string) => s as LayerStatus;
+---
+
+<Base
+  title="Approach"
+  description="The five-layer approach behind the Africa Modelling Bridge — an information layer, a dialogue layer, a question portfolio, discovery sessions, concept-note support, and a public archive."
+>
+  <!-- ───────────────────────── Hero ───────────────────────── -->
+  <section class="relative border-b border-bridge-100/60">
+    <div class="container-page pt-20 pb-16 sm:pt-24 sm:pb-20">
+      <p class="eyebrow flex items-center gap-3">
+        <span class="inline-block h-px w-8 bg-bridge-300"></span>
+        Approach
+      </p>
+      <h1 class="mt-6 max-w-4xl font-display text-balance text-4xl font-light leading-[1.05] tracking-tightest text-ink-900 sm:text-5xl lg:text-6xl">
+        Five layers,
+        <span class="italic text-bridge-600">one bridge</span>.
+      </h1>
+      <p class="mt-7 max-w-2xl text-lg leading-relaxed text-ink-600 text-pretty">
+        AMB does one thing in five layered ways: it makes publicly available information findable,
+        turns conversations into questions, and routes those questions to the BSc, MSc and PhD
+        students in the same country who can answer them. Below is how each layer works, what
+        ships when, and why we chose this shape over the alternatives.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Theory of change ───────────────────────── -->
+  <section class="border-b border-bridge-100/60 bg-cream-100/50">
+    <div class="container-page py-20 sm:py-24">
+      <p class="eyebrow">Theory of change</p>
+      <h2 class="mt-4 max-w-3xl font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+        Information becomes questions. Questions become projects. Projects become decisions.
+      </h2>
+
+      <ol class="mt-12 grid gap-3 lg:grid-cols-6">
+        {[
+          { k: 'Inputs', v: 'Publicly available MoH information' },
+          { k: 'Method', v: 'Structured in-person dialogue' },
+          { k: 'Output', v: 'Country-led modelling questions' },
+          { k: 'Capacity', v: 'BSc · MSc · PhD student projects' },
+          { k: 'Artefacts', v: 'Concept notes · code · outputs' },
+          { k: 'Outcome', v: 'Better ministry decisions' },
+        ].map((step, i) => (
+          <li class="relative">
+            <div class="flex h-full flex-col rounded-xl border border-bridge-100/60 bg-cream-50 p-4 shadow-card">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">{i === 0 ? 'Start' : i === 5 ? 'End' : `Step ${i}`}</p>
+              <p class="mt-2 font-display text-base font-medium text-ink-900">{step.k}</p>
+              <p class="mt-1 text-xs leading-snug text-ink-600">{step.v}</p>
+            </div>
+            {i < 5 && (
+              <svg
+                viewBox="0 0 24 24"
+                class="absolute right-[-14px] top-1/2 hidden h-5 w-5 -translate-y-1/2 text-bridge-300 lg:block"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14m0 0l-5-5m5 5l-5 5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Layer sections ───────────────────────── -->
+  <section class="relative border-b border-bridge-100/60">
+    <div class="container-page py-20 sm:py-24">
+      <div class="relative">
+        <!-- vertical timeline rule, hidden on small -->
+        <div
+          class="pointer-events-none absolute left-[3.25rem] top-2 hidden h-[calc(100%-2rem)] w-px bg-bridge-100 lg:block"
+          aria-hidden="true"
+        ></div>
+
+        <div class="space-y-24">
+          {layers.map((layer) => (
+            <article id={`layer-${layer.num}`} class="relative scroll-mt-24">
+              <div class="grid gap-8 lg:grid-cols-12">
+                <!-- numeric badge column -->
+                <div class="lg:col-span-3">
+                  <div class="relative inline-flex items-center gap-4 lg:block">
+                    <span class="relative z-10 inline-grid h-24 w-24 place-items-center rounded-2xl bg-cream-50 ring-1 ring-bridge-100 font-display text-5xl font-light tracking-tightest text-bridge-600 shadow-card">
+                      {layer.num}
+                    </span>
+                    <div class="lg:mt-5">
+                      <StatusPill status={statusFor(layer.status)} />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- body column -->
+                <div class="lg:col-span-9">
+                  <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">
+                    Layer {parseInt(layer.num, 10)}
+                  </p>
+                  <h2 class="mt-2 font-display text-2xl font-light leading-tight tracking-snug text-ink-900 sm:text-3xl lg:text-4xl text-balance">
+                    {layer.title}
+                  </h2>
+                  <p class="mt-3 max-w-2xl text-base italic text-ink-400">{layer.short}</p>
+
+                  <div class="mt-7 max-w-readable space-y-5 text-[1.05rem] leading-relaxed text-ink-600 text-pretty">
+                    {layer.body.map((p) => <p>{p}</p>)}
+                  </div>
+
+                  {layer.pullquote && (
+                    <blockquote class="my-8 max-w-2xl border-l-2 border-ember-500 pl-5">
+                      <p class="font-display text-2xl font-light italic leading-snug text-ink-800">
+                        “{layer.pullquote}”
+                      </p>
+                    </blockquote>
+                  )}
+
+                  {layer.highlights && (
+                    <ul class="mt-7 grid gap-3 sm:grid-cols-3">
+                      {layer.highlights.map((h) => (
+                        <li class="flex items-start gap-2 rounded-lg border border-bridge-100/60 bg-cream-50 p-3 text-sm leading-snug text-ink-600">
+                          <svg viewBox="0 0 16 16" class="mt-0.5 h-3 w-3 shrink-0 text-ember-500" fill="currentColor" aria-hidden="true">
+                            <circle cx="8" cy="8" r="3" />
+                          </svg>
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Why broader than malaria ───────────────────────── -->
+  <section class="border-b border-bridge-100/60">
+    <div class="container-page py-20 sm:py-24">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <p class="eyebrow">Scope</p>
+          <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+            Why broader than malaria?
+          </h2>
+        </div>
+        <div class="lg:col-span-8 max-w-readable space-y-5 text-[1.05rem] leading-relaxed text-ink-600 text-pretty">
+          <p>
+            Malaria is where the lead consultant's network and credibility are deepest, and where
+            the first concrete dossiers begin. But ministries do not run vertically by disease —
+            they run horizontally across surveillance, supply chain, workforce, climate-sensitive
+            programmes and procurement. The questions that come back from Layer 1 dialogues are
+            the same shape regardless of disease.
+          </p>
+          <p>
+            So the Bridge is built disease-agnostic from v0.0. EPI coverage dropout in Malawi, ITN
+            distribution in Tanzania, cholera surveillance in DRC — all sit on the same five
+            layers, with the same artefacts, the same supervision model, and the same archive
+            structure. Health first; the architecture extends.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Why TZ, MW, DRC ───────────────────────── -->
+  <section class="border-b border-bridge-100/60 bg-bridge-50/60">
+    <div class="container-page py-20 sm:py-24">
+      <p class="eyebrow">Pilot countries</p>
+      <h2 class="mt-4 max-w-3xl font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+        Why Tanzania, Malawi and the DRC?
+      </h2>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600 text-pretty">
+        Three countries, three regulatory cultures, three different relationships to public-health
+        modelling — chosen because the lead consultant has working ministry relationships in each,
+        because the document baseline is rich enough to index in v0.1, and because the three
+        together stress-test the model across Anglophone, mixed and Francophone contexts.
+      </p>
+
+      <div class="mt-12 grid gap-4 md:grid-cols-3">
+        {orderedCountries.map((c) => (
+          <a
+            href={`/africa-modelling-bridge/countries/${c!.slug}`}
+            class="group relative flex flex-col rounded-2xl border border-bridge-100/70 bg-cream-50 p-6 shadow-card transition hover:-translate-y-px hover:shadow-lift"
+          >
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-bridge-600">{c!.data.region}</p>
+                <h3 class="mt-2 font-display text-2xl font-light text-ink-900">{c!.data.name}</h3>
+              </div>
+              <span class="inline-grid h-9 w-9 place-items-center rounded-md border border-bridge-200 text-bridge-600 transition group-hover:bg-bridge-600 group-hover:text-cream-50">
+                <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+            </div>
+            <p class="mt-5 text-sm leading-relaxed text-ink-600">{c!.data.summary}</p>
+            <p class="mt-5 text-xs text-ink-400">
+              Languages — {c!.data.languages.join(' · ')}
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── Closing CTA ───────────────────────── -->
+  <section class="bg-cream-100">
+    <div class="container-page py-20 sm:py-24">
+      <div class="rounded-3xl border border-bridge-100 bg-cream-50 p-10 shadow-card sm:p-14">
+        <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div class="lg:col-span-7">
+            <p class="eyebrow">What's next</p>
+            <h2 class="mt-4 font-display text-3xl font-light leading-tight tracking-snug text-ink-900 sm:text-4xl text-balance">
+              See the dossiers,
+              <span class="italic text-bridge-600">or back the layer.</span>
+            </h2>
+            <p class="mt-5 max-w-xl text-lg leading-relaxed text-ink-600 text-pretty">
+              Three preview dossiers are live now. The funder pathway shows where each $25k or
+              $50k of support lands — a single question, a country layer, or the platform.
+            </p>
+          </div>
+          <div class="lg:col-span-5 flex flex-col gap-3 sm:flex-row lg:justify-end">
+            <a
+              href="/africa-modelling-bridge/dossiers"
+              class="inline-flex items-center justify-center gap-2 rounded-md bg-bridge-600 px-5 py-3 text-sm font-medium text-cream-50 shadow-card transition hover:-translate-y-px hover:bg-bridge-700"
+            >
+              Browse dossiers
+              <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </a>
+            <a
+              href="/africa-modelling-bridge/support"
+              class="inline-flex items-center justify-center gap-2 rounded-md border border-bridge-200 bg-cream-50 px-5 py-3 text-sm font-medium text-bridge-700 transition hover:border-bridge-500 hover:bg-bridge-50"
+            >
+              Funder pathway
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

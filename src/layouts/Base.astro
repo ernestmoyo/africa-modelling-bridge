@@ -1,0 +1,46 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  hideNav?: boolean;
+}
+
+const {
+  title,
+  description = 'Africa Modelling Bridge — a consultant-led collaborative bridging African ministries, universities and researchers through publicly available information, structured dialogue and country-led modelling.',
+  hideNav = false,
+} = Astro.props;
+
+const fullTitle = title === 'Africa Modelling Bridge'
+  ? 'Africa Modelling Bridge — Evidence bridge for African decisions'
+  : `${title} — Africa Modelling Bridge`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/africa-modelling-bridge/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body class="bg-cream-50 text-ink-800">
+    {!hideNav && <Header />}
+    <main id="main" class="relative">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
